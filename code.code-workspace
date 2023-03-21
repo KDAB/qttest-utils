@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../vscode-extension-kdab-qttest/"
+		}
+	],
+	"settings": {}
+}
