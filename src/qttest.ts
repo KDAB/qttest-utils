@@ -18,7 +18,11 @@ export class QtTest {
     /// Allows vscode extensions to associate with a test item
     vscodeTestItem: any | undefined;
 
+    /// The list of individual runnable test slots
     slots: QtTestSlot[] | null = null;
+
+    /// Set after running
+    lastExitCode: number = 0;
 
     constructor(filename: string, buildDirPath: string) {
         this.filename = filename;
@@ -154,6 +158,16 @@ export class QtTest {
             });
 
             child.on("exit", (code) => {
+
+                /// We can code even be null ?
+                if (code == undefined) code = -1;
+
+                if (!slotName) {
+                    /// We only store the last exit code when running the whole executable, not individual slots
+                    /// For individual slots it's stored in QtTestSlot
+                    this.lastExitCode = code;
+                }
+
                 if (code === 0) {
                     resolve(true);
                 } else {

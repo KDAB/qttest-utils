@@ -49,7 +49,10 @@ const cmake_1 = require("./cmake");
  */
 class QtTest {
     constructor(filename, buildDirPath) {
+        /// The list of individual runnable test slots
         this.slots = null;
+        /// Set after running
+        this.lastExitCode = 0;
         this.filename = filename;
         this.buildDirPath = buildDirPath;
     }
@@ -174,6 +177,14 @@ class QtTest {
                     // chunk.toString()
                 });
                 child.on("exit", (code) => {
+                    /// We can code even be null ?
+                    if (code == undefined)
+                        code = -1;
+                    if (!slotName) {
+                        /// We only store the last exit code when running the whole executable, not individual slots
+                        /// For individual slots it's stored in QtTestSlot
+                        this.lastExitCode = code;
+                    }
                     if (code === 0) {
                         resolve(true);
                     }

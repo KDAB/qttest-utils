@@ -36,10 +36,18 @@ function example() {
         yield qt.removeNonLinking();
         // Example of filtering out by regexp:
         qt.removeMatching(/(tst_view|tst_window)/);
-        // Example of filtering out by regexp (inverted):
+        // Uncomment to see example of filtering out by regexp (inverted):
         // qt.maintainMatching(/(tst_docks|tst_qtwidgets|tst_multisplitter)/);
         qt.dumpExecutablePaths();
-        qt.dumpTestSlots();
+        yield qt.dumpTestSlots();
+        console.log("\nRunning tests...");
+        for (var executable of qt.qtTestExecutables) {
+            yield executable.runTest();
+            if (executable.lastExitCode === 0)
+                console.log("    PASS: " + executable.filename);
+            else
+                console.log("    FAIL: " + executable.filename + "; code=" + executable.lastExitCode);
+        }
     });
 }
 example();

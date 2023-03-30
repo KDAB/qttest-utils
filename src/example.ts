@@ -5,6 +5,7 @@
 import { CMakeTests, CMakeTest } from "./cmake";
 import { QtTest, QtTests } from "./qttest";
 import fs from 'fs';
+import { exec } from "child_process";
 
 async function example() {
     const args = process.argv.slice(2)
@@ -35,7 +36,16 @@ async function example() {
     // qt.maintainMatching(/(tst_docks|tst_qtwidgets|tst_multisplitter)/);
 
     qt.dumpExecutablePaths();
-    qt.dumpTestSlots();
+    await qt.dumpTestSlots();
+
+    console.log("\nRunning tests...");
+    for (var executable of qt.qtTestExecutables) {
+        await executable.runTest();
+        if (executable.lastExitCode === 0)
+            console.log("    PASS: " + executable.filename);
+        else
+            console.log("    FAIL: " + executable.filename + "; code=" + executable.lastExitCode);
+    }
 }
 
 example();

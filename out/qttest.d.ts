@@ -7,6 +7,7 @@ export declare class QtTest {
     readonly buildDirPath: string;
     vscodeTestItem: any | undefined;
     slots: QtTestSlot[] | null;
+    lastExitCode: number;
     constructor(filename: string, buildDirPath: string);
     get id(): string;
     get label(): string;
