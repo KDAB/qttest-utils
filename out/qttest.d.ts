@@ -5,6 +5,7 @@
 export declare class QtTest {
     readonly filename: string;
     readonly buildDirPath: string;
+    vscodeTestItem: any | undefined;
     slots: QtTestSlot[] | null;
     constructor(filename: string, buildDirPath: string);
     get id(): string;
@@ -35,6 +36,7 @@ export declare class QtTest {
 export declare class QtTestSlot {
     name: string;
     parentQTest: QtTest;
+    vscodeTestItem: any | undefined;
     constructor(name: string, parent: QtTest);
     get id(): string;
     get absoluteFilePath(): string;
