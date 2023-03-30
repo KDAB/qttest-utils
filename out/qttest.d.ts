@@ -25,6 +25,7 @@ export declare class QtTest {
     linksToQtTestLib(): Promise<boolean> | undefined;
     isQtTestViaHelp(): Promise<boolean | undefined>;
     runTest(slot?: QtTestSlot, cwd?: string): Promise<boolean>;
+    outputFileName(): string;
     command(): {
         label: string;
         executablePath: string;

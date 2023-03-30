@@ -148,14 +148,14 @@ export class QtTest {
         if (slot) {
             // Runs a single Qt test instead
             args = args.concat(slot.name);
+        } else {
+            // log to file
+            args = args.concat("-o").concat(this.outputFileName() + ",txt");
         }
 
         return await new Promise((resolve, reject) => {
             let opts = cwd.length > 0 ? { cwd: cwd } : { cwd: this.buildDirPath };
             const child = spawn(this.filename, args, opts);
-            child.stdout.on("data", (chunk) => {
-                // chunk.toString()
-            });
 
             child.on("exit", (code) => {
 
@@ -176,6 +176,10 @@ export class QtTest {
                 }
             });
         });
+    }
+
+    public outputFileName(): string {
+        return this.label + ".log";
     }
 
     public command(): { label: string, executablePath: string, args: string[] } {

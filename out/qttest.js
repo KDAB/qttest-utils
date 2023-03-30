@@ -170,12 +170,13 @@ class QtTest {
                 // Runs a single Qt test instead
                 args = args.concat(slot.name);
             }
+            else {
+                args = args.concat("-o").concat(this.outputFileName() + ",txt");
+                console.log(args);
+            }
             return yield new Promise((resolve, reject) => {
                 let opts = cwd.length > 0 ? { cwd: cwd } : { cwd: this.buildDirPath };
                 const child = (0, child_process_1.spawn)(this.filename, args, opts);
-                child.stdout.on("data", (chunk) => {
-                    // chunk.toString()
-                });
                 child.on("exit", (code) => {
                     /// We can code even be null ?
                     if (code == undefined)
@@ -195,6 +196,9 @@ class QtTest {
                 });
             });
         });
+    }
+    outputFileName() {
+        return this.label + ".log";
     }
     command() {
         return { label: this.label, executablePath: this.filename, args: [] };
