@@ -180,9 +180,10 @@ class QtTest {
                     /// We can code even be null ?
                     if (code == undefined)
                         code = -1;
-                    if (!slot) {
-                        /// We only store the last exit code when running the whole executable, not individual slots
-                        /// For individual slots it's stored in QtTestSlot
+                    if (slot) {
+                        slot.lastExitCode = code;
+                    }
+                    else {
                         this.lastExitCode = code;
                     }
                     if (code === 0) {
@@ -205,6 +206,8 @@ exports.QtTest = QtTest;
  */
 class QtTestSlot {
     constructor(name, parent) {
+        /// Set after running
+        this.lastExitCode = 0;
         this.name = name;
         this.parentQTest = parent;
     }

@@ -38,6 +38,7 @@ export declare class QtTestSlot {
     name: string;
     parentQTest: QtTest;
     vscodeTestItem: any | undefined;
+    lastExitCode: number;
     constructor(name: string, parent: QtTest);
     get id(): string;
     get absoluteFilePath(): string;

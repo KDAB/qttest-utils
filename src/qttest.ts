@@ -162,9 +162,10 @@ export class QtTest {
                 /// We can code even be null ?
                 if (code == undefined) code = -1;
 
-                if (!slot) {
-                    /// We only store the last exit code when running the whole executable, not individual slots
-                    /// For individual slots it's stored in QtTestSlot
+                if (slot) {
+                    slot.lastExitCode = code;
+                }
+                else {
                     this.lastExitCode = code;
                 }
 
@@ -193,6 +194,9 @@ export class QtTestSlot {
 
     /// Allows vscode extensions to associate with a test item
     vscodeTestItem: any | undefined;
+
+    /// Set after running
+    lastExitCode: number = 0;
 
     constructor(name: string, parent: QtTest) {
         this.name = name;
