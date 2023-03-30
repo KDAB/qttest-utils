@@ -143,11 +143,11 @@ export class QtTest {
     }
 
     /// Runs this test
-    public async runTest(slotName?: string, cwd: string = ""): Promise<boolean> {
+    public async runTest(slot?: QtTestSlot, cwd: string = ""): Promise<boolean> {
         let args: string[] = [];
-        if (slotName) {
+        if (slot) {
             // Runs a single Qt test instead
-            args = args.concat(slotName);
+            args = args.concat(slot.name);
         }
 
         return await new Promise((resolve, reject) => {
@@ -162,7 +162,7 @@ export class QtTest {
                 /// We can code even be null ?
                 if (code == undefined) code = -1;
 
-                if (!slotName) {
+                if (!slot) {
                     /// We only store the last exit code when running the whole executable, not individual slots
                     /// For individual slots it's stored in QtTestSlot
                     this.lastExitCode = code;
@@ -208,7 +208,7 @@ export class QtTestSlot {
     }
 
     public async runTest(): Promise<boolean> {
-        return this.parentQTest.runTest(this.name);
+        return this.parentQTest.runTest(this);
     }
 
     public command(): { label: string, executablePath: string, args: string[] } {

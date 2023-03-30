@@ -163,12 +163,12 @@ class QtTest {
         });
     }
     /// Runs this test
-    runTest(slotName, cwd = "") {
+    runTest(slot, cwd = "") {
         return __awaiter(this, void 0, void 0, function* () {
             let args = [];
-            if (slotName) {
+            if (slot) {
                 // Runs a single Qt test instead
-                args = args.concat(slotName);
+                args = args.concat(slot.name);
             }
             return yield new Promise((resolve, reject) => {
                 let opts = cwd.length > 0 ? { cwd: cwd } : { cwd: this.buildDirPath };
@@ -180,7 +180,7 @@ class QtTest {
                     /// We can code even be null ?
                     if (code == undefined)
                         code = -1;
-                    if (!slotName) {
+                    if (!slot) {
                         /// We only store the last exit code when running the whole executable, not individual slots
                         /// For individual slots it's stored in QtTestSlot
                         this.lastExitCode = code;
@@ -216,7 +216,7 @@ class QtTestSlot {
     }
     runTest() {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.parentQTest.runTest(this.name);
+            return this.parentQTest.runTest(this);
         });
     }
     command() {

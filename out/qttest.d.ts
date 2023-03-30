@@ -24,7 +24,7 @@ export declare class QtTest {
      */
     linksToQtTestLib(): Promise<boolean> | undefined;
     isQtTestViaHelp(): Promise<boolean | undefined>;
-    runTest(slotName?: string, cwd?: string): Promise<boolean>;
+    runTest(slot?: QtTestSlot, cwd?: string): Promise<boolean>;
     command(): {
         label: string;
         executablePath: string;
