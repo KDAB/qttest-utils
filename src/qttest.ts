@@ -15,6 +15,9 @@ export class QtTest {
     readonly filename: string;
     readonly buildDirPath: string;
 
+    /// Allows vscode extensions to associate with a test item
+    vscodeTestItem: any | undefined;
+
     slots: QtTestSlot[] | null = null;
 
     constructor(filename: string, buildDirPath: string) {
@@ -173,6 +176,9 @@ export class QtTestSlot {
 
     // The QTest executable this slot belongs to
     parentQTest: QtTest;
+
+    /// Allows vscode extensions to associate with a test item
+    vscodeTestItem: any | undefined;
 
     constructor(name: string, parent: QtTest) {
         this.name = name;
