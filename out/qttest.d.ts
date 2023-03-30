@@ -24,13 +24,17 @@ export declare class QtTest {
      */
     linksToQtTestLib(): Promise<boolean> | undefined;
     isQtTestViaHelp(): Promise<boolean | undefined>;
+    slotByName(name: string): QtTestSlot | undefined;
     runTest(slot?: QtTestSlot, cwd?: string): Promise<boolean>;
-    outputFileName(): string;
+    tapOutputFileName(slot?: QtTestSlot): string;
+    txtOutputFileName(slot?: QtTestSlot): string;
     command(): {
         label: string;
         executablePath: string;
         args: string[];
     };
+    clearSubTestStates(): void;
+    updateSubTestStates(cwdDir: string, slot?: QtTestSlot): Promise<void>;
 }
 /**
  * Represents a single Qt test slot
@@ -39,7 +43,7 @@ export declare class QtTestSlot {
     name: string;
     parentQTest: QtTest;
     vscodeTestItem: any | undefined;
-    lastExitCode: number;
+    lastTestFailure: TestFailure | undefined;
     constructor(name: string, parent: QtTest);
     get id(): string;
     get absoluteFilePath(): string;
@@ -62,4 +66,9 @@ export declare class QtTests {
     maintainMatching(regex: RegExp): void;
     dumpExecutablePaths(): void;
     dumpTestSlots(): Promise<void>;
+}
+export interface TestFailure {
+    name: string;
+    filePath: string;
+    lineNumber: number;
 }

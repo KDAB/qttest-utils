@@ -162,6 +162,15 @@ class QtTest {
             });
         });
     }
+    slotByName(name) {
+        if (!this.slots)
+            return undefined;
+        for (let slot of this.slots) {
+            if (slot.name == name)
+                return slot;
+        }
+        return undefined;
+    }
     /// Runs this test
     runTest(slot, cwd = "") {
         return __awaiter(this, void 0, void 0, function* () {
@@ -171,38 +180,91 @@ class QtTest {
                 args = args.concat(slot.name);
             }
             else {
-                // log to file
-                args = args.concat("-o").concat(this.outputFileName() + ".xml,xml");
-                args = args.concat("-o").concat(this.outputFileName() + ".log,txt");
+                this.clearSubTestStates();
             }
+            // log to file
+            args = args.concat("-o").concat(this.tapOutputFileName(slot) + ",tap");
+            args = args.concat("-o").concat(this.txtOutputFileName(slot) + ",txt");
             return yield new Promise((resolve, reject) => {
-                let opts = cwd.length > 0 ? { cwd: cwd } : { cwd: this.buildDirPath };
-                const child = (0, child_process_1.spawn)(this.filename, args, opts);
-                child.on("exit", (code) => {
+                let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
+                const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
+                child.on("exit", (code) => __awaiter(this, void 0, void 0, function* () {
                     /// We can code even be null ?
                     if (code == undefined)
                         code = -1;
-                    if (slot) {
-                        slot.lastExitCode = code;
-                    }
-                    else {
+                    if (!slot) {
                         this.lastExitCode = code;
                     }
+                    /// When running a QtTest executable, let's check which sub-tests failed
+                    /// (So VSCode can show some error icon for each fail)
+                    yield this.updateSubTestStates(cwdDir, slot);
                     if (code === 0) {
                         resolve(true);
                     }
                     else {
                         resolve(false);
                     }
-                });
+                }));
             });
         });
     }
-    outputFileName() {
-        return this.label;
+    /// Using .tap so we don't have to use a separate XML library
+    /// .tap is plain text and a single regexp can catch the failing tests and line number
+    tapOutputFileName(slot) {
+        let slotName = slot ? ("_" + slot.name) : "";
+        return this.label + slotName + ".tap";
+    }
+    txtOutputFileName(slot) {
+        let slotName = slot ? ("_" + slot.name) : "";
+        return this.label + slotName + ".txt";
     }
     command() {
         return { label: this.label, executablePath: this.filename, args: [] };
+    }
+    clearSubTestStates() {
+        if (this.slots) {
+            for (let slot of this.slots) {
+                slot.lastTestFailure = undefined;
+            }
+        }
+    }
+    updateSubTestStates(cwdDir, slot) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let tapFileName = cwdDir + "/" + this.tapOutputFileName(slot);
+            var failures = yield new Promise((resolve, reject) => {
+                fs.readFile(tapFileName, "utf8", (error, data) => {
+                    if (error) {
+                        console.log("Failed to read log file");
+                        reject(error);
+                    }
+                    else {
+                        // A fail line is something like:
+                        // at: MyTest::testF() (/some/path/qttest-utils/test/qt_test/test2.cpp:13)
+                        const pattern = /at:\s+(.+?)::(.+?)\(\)\s+\((.+?):(\d+)\)/gm;
+                        const matches = Array.from(data.matchAll(pattern));
+                        const failedResults = matches.map(match => ({
+                            name: match[2],
+                            filePath: match[3],
+                            lineNumber: parseInt(match[4]),
+                        }));
+                        resolve(failedResults);
+                    }
+                });
+            });
+            for (let failure of failures) {
+                if (slot && slot.name != failure.name) {
+                    // We executed a single slot, ignore anything else
+                    continue;
+                }
+                let failedSlot = this.slotByName(failure.name);
+                if (failedSlot) {
+                    failedSlot.lastTestFailure = failure;
+                }
+                else {
+                    console.log("Failed to find slot with name " + failure.name);
+                }
+            }
+        });
     }
 }
 exports.QtTest = QtTest;
@@ -211,8 +273,6 @@ exports.QtTest = QtTest;
  */
 class QtTestSlot {
     constructor(name, parent) {
-        /// Set after running
-        this.lastExitCode = 0;
         this.name = name;
         this.parentQTest = parent;
     }

@@ -47,7 +47,26 @@ function example() {
                 console.log("    PASS: " + executable.filename);
             else
                 console.log("    FAIL: " + executable.filename + "; code=" + executable.lastExitCode);
+            for (let slot of executable.slots) {
+                if (slot.lastTestFailure) {
+                    console.log("        failed slot=" + slot.name + "; path=" + slot.lastTestFailure.filePath + "; line=" + slot.lastTestFailure.lineNumber);
+                }
+            }
         }
+        // Also run individual slots, just for example purposes:
+        console.log("\nRunning single tests...");
+        let slot = qt.qtTestExecutables[1].slots[0];
+        yield slot.runTest();
+        if (slot.lastTestFailure)
+            console.log("    FAIL:" + JSON.stringify(slot.lastTestFailure));
+        else
+            console.log("    PASS:");
+        let slot2 = qt.qtTestExecutables[1].slots[2];
+        yield slot2.runTest();
+        if (slot2.lastTestFailure)
+            console.log("    FAIL:" + JSON.stringify(slot2.lastTestFailure));
+        else
+            console.log("    PASS");
     });
 }
 example();
