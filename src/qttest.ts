@@ -47,7 +47,7 @@ export class QtTest {
                 return;
             }
 
-            const child = spawn(this.filename, ["-functions"], {cwd: this.buildDirPath});
+            const child = spawn(this.filename, ["-functions"], { cwd: this.buildDirPath });
 
             child.stdout.on("data", (chunk) => {
                 output += chunk.toString();
@@ -147,7 +147,7 @@ export class QtTest {
         }
 
         return await new Promise((resolve, reject) => {
-            let opts = cwd.length > 0 ? {cwd: cwd} : {cwd: this.buildDirPath};
+            let opts = cwd.length > 0 ? { cwd: cwd } : { cwd: this.buildDirPath };
             const child = spawn(this.filename, args, opts);
             child.stdout.on("data", (chunk) => {
                 // chunk.toString()
