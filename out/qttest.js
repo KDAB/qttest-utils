@@ -171,8 +171,9 @@ class QtTest {
                 args = args.concat(slot.name);
             }
             else {
-                args = args.concat("-o").concat(this.outputFileName() + ",txt");
-                console.log(args);
+                // log to file
+                args = args.concat("-o").concat(this.outputFileName() + ".xml,xml");
+                args = args.concat("-o").concat(this.outputFileName() + ".log,txt");
             }
             return yield new Promise((resolve, reject) => {
                 let opts = cwd.length > 0 ? { cwd: cwd } : { cwd: this.buildDirPath };
@@ -198,7 +199,7 @@ class QtTest {
         });
     }
     outputFileName() {
-        return this.label + ".log";
+        return this.label;
     }
     command() {
         return { label: this.label, executablePath: this.filename, args: [] };

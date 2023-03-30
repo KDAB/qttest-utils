@@ -150,7 +150,8 @@ export class QtTest {
             args = args.concat(slot.name);
         } else {
             // log to file
-            args = args.concat("-o").concat(this.outputFileName() + ",txt");
+            args = args.concat("-o").concat(this.outputFileName() + ".xml,xml");
+            args = args.concat("-o").concat(this.outputFileName() + ".log,txt");
         }
 
         return await new Promise((resolve, reject) => {
@@ -179,7 +180,7 @@ export class QtTest {
     }
 
     public outputFileName(): string {
-        return this.label + ".log";
+        return this.label;
     }
 
     public command(): { label: string, executablePath: string, args: string[] } {
