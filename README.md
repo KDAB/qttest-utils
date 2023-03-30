@@ -4,4 +4,14 @@ A nodejs module for listing Qt Test executables and their individual test slots 
 
 To be used by vscode extensions that implement the `Testing API`, but can also be used standalone for whatever reason ;).
 
-For example usage `src/example.ts`.
+
+## Example
+
+```
+$ cd test/qt_test
+$ cmake --preset=dev
+$ cmake --build build-dev/
+$ cd ../..
+$ tsc
+$ node out/example.js test/qt_test/build-dev
+```
