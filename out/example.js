@@ -37,7 +37,7 @@ function example() {
         // Example of filtering out by regexp:
         qt.removeMatching(/(tst_view|tst_window)/);
         // Example of filtering out by regexp (inverted):
-        qt.maintainMatching(/(tst_docks|tst_qtwidgets|tst_multisplitter)/);
+        // qt.maintainMatching(/(tst_docks|tst_qtwidgets|tst_multisplitter)/);
         qt.dumpExecutablePaths();
         qt.dumpTestSlots();
     });
