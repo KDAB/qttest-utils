@@ -193,7 +193,7 @@ class QtTest {
             args = args.concat("-o").concat(this.txtOutputFileName(slot) + ",txt");
             return yield new Promise((resolve, reject) => {
                 let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
-                logMessage("Running " + this.filename + " " + args + " with cwd=" + cwdDir);
+                logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
                 const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
                 child.on("exit", (code) => __awaiter(this, void 0, void 0, function* () {
                     /// We can code even be null ?
@@ -317,7 +317,7 @@ class QtTests {
                 }
             }
             else {
-                console.error("Failed to retrieve ctests!");
+                logMessage("ERROR: Failed to retrieve ctests!");
             }
         });
     }

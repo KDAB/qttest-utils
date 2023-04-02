@@ -180,7 +180,7 @@ export class QtTest {
 
         return await new Promise((resolve, reject) => {
             let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
-            logMessage("Running " + this.filename + " " + args + " with cwd=" + cwdDir);
+            logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
             const child = spawn(this.filename, args, { cwd: cwdDir });
 
             child.on("exit", async (code) => {
@@ -324,7 +324,7 @@ export class QtTests {
                 this.qtTestExecutables.push(qtest);
             }
         } else {
-            console.error("Failed to retrieve ctests!");
+            logMessage("ERROR: Failed to retrieve ctests!");
         }
     }
 
