@@ -1,0 +1,6 @@
+/test
+/src
+/code.code-workspace
+*.tgz
+*.log
+tsconfig.json
