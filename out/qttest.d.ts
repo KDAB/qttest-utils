@@ -1,3 +1,4 @@
+type LoggerFunction = (arg: string) => void;
 /**
  * Represents a single QtTest executable.
  * Supports listing the individual test slots
@@ -61,6 +62,7 @@ export declare class QtTests {
     qtTestExecutables: QtTest[];
     discoverViaCMake(buildDirPath: string): Promise<void>;
     removeNonLinking(): Promise<void>;
+    setLogFunction(func: LoggerFunction): void;
     removeByRunningHelp(): Promise<void>;
     removeMatching(regex: RegExp): void;
     maintainMatching(regex: RegExp): void;
@@ -72,3 +74,4 @@ export interface TestFailure {
     filePath: string;
     lineNumber: number;
 }
+export {};

@@ -23,6 +23,10 @@ async function example() {
 
     let qt = new QtTests();
 
+    qt.setLogFunction((message: string) => {
+        console.log(message);
+    });
+
     // Gather all tests that would be executed by CTest:
     await qt.discoverViaCMake(buildDirPath);
 

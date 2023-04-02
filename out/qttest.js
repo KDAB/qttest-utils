@@ -43,6 +43,12 @@ const child_process_1 = require("child_process");
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const cmake_1 = require("./cmake");
+var gLogFunction;
+function logMessage(message) {
+    if (gLogFunction) {
+        gLogFunction(message);
+    }
+}
 /**
  * Represents a single QtTest executable.
  * Supports listing the individual test slots
@@ -187,6 +193,7 @@ class QtTest {
             args = args.concat("-o").concat(this.txtOutputFileName(slot) + ",txt");
             return yield new Promise((resolve, reject) => {
                 let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
+                logMessage("Running " + this.filename + " " + args + " with cwd=" + cwdDir);
                 const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
                 child.on("exit", (code) => __awaiter(this, void 0, void 0, function* () {
                     /// We can code even be null ?
@@ -234,7 +241,7 @@ class QtTest {
             var failures = yield new Promise((resolve, reject) => {
                 fs.readFile(tapFileName, "utf8", (error, data) => {
                     if (error) {
-                        console.log("Failed to read log file");
+                        logMessage("ERROR: Failed to read log file");
                         reject(error);
                     }
                     else {
@@ -261,7 +268,7 @@ class QtTest {
                     failedSlot.lastTestFailure = failure;
                 }
                 else {
-                    console.log("Failed to find slot with name " + failure.name);
+                    logMessage("ERROR: Failed to find slot with name " + failure.name);
                 }
             }
         });
@@ -333,6 +340,9 @@ class QtTests {
                 this.qtTestExecutables = acceptedExecutables;
             }
         });
+    }
+    setLogFunction(func) {
+        gLogFunction = func;
     }
     removeByRunningHelp() {
         return __awaiter(this, void 0, void 0, function* () {

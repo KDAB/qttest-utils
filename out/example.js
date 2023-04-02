@@ -30,6 +30,9 @@ function example() {
             process.exit(1);
         }
         let qt = new qttest_1.QtTests();
+        qt.setLogFunction((message) => {
+            console.log(message);
+        });
         // Gather all tests that would be executed by CTest:
         yield qt.discoverViaCMake(buildDirPath);
         // Filter-out the ones that don't link to QtTest (doctests and such)

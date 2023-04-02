@@ -7,6 +7,16 @@ import path from "path";
 import * as fs from 'fs';
 import { CMakeTests } from "./cmake";
 
+
+type LoggerFunction = (arg: string) => void;
+var gLogFunction: LoggerFunction | undefined;
+
+function logMessage(message: string) {
+    if (gLogFunction) {
+        gLogFunction(message);
+    }
+}
+
 /**
  * Represents a single QtTest executable.
  * Supports listing the individual test slots
@@ -170,6 +180,7 @@ export class QtTest {
 
         return await new Promise((resolve, reject) => {
             let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
+            logMessage("Running " + this.filename + " " + args + " with cwd=" + cwdDir);
             const child = spawn(this.filename, args, { cwd: cwdDir });
 
             child.on("exit", async (code) => {
@@ -226,7 +237,7 @@ export class QtTest {
         var failures = await new Promise<TestFailure[]>((resolve, reject) => {
             fs.readFile(tapFileName, "utf8", (error, data) => {
                 if (error) {
-                    console.log("Failed to read log file");
+                    logMessage("ERROR: Failed to read log file");
                     reject(error);
                 } else {
                     // A fail line is something like:
@@ -255,7 +266,7 @@ export class QtTest {
             if (failedSlot) {
                 failedSlot.lastTestFailure = failure;
             } else {
-                console.log("Failed to find slot with name " + failure.name);
+                logMessage("ERROR: Failed to find slot with name " + failure.name);
             }
         }
     }
@@ -333,6 +344,10 @@ export class QtTests {
             }
             this.qtTestExecutables = acceptedExecutables;
         }
+    }
+
+    public setLogFunction(func: LoggerFunction) {
+        gLogFunction = func;
     }
 
     public async removeByRunningHelp() {
