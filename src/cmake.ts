@@ -4,6 +4,7 @@
 
 import { spawn } from "child_process";
 import path from "path";
+import { logMessage } from "./qttest";
 
 /**
  * Represents tests added in cmake (Via add_test())
@@ -32,6 +33,7 @@ export class CMakeTests {
         }
 
         return new Promise((resolve, reject) => {
+            logMessage("Running ctest --show-only=json-v1 with cwd=" + this.buildDirPath);
             const child = spawn("ctest", ["--show-only=json-v1"], { "cwd": this.buildDirPath });
             let output = "";
             child.stdout.on("data", (chunk) => {

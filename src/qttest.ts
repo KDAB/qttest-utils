@@ -11,7 +11,7 @@ import { CMakeTests } from "./cmake";
 type LoggerFunction = (arg: string) => void;
 var gLogFunction: LoggerFunction | undefined;
 
-function logMessage(message: string) {
+export function logMessage(message: string) {
     if (gLogFunction) {
         gLogFunction(message);
     }

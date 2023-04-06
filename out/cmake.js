@@ -18,6 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CMakeTest = exports.CMakeTests = void 0;
 const child_process_1 = require("child_process");
 const path_1 = __importDefault(require("path"));
+const qttest_1 = require("./qttest");
 /**
  * Represents tests added in cmake (Via add_test())
  *
@@ -40,6 +41,7 @@ class CMakeTests {
                 return undefined;
             }
             return new Promise((resolve, reject) => {
+                (0, qttest_1.logMessage)("Running ctest --show-only=json-v1 with cwd=" + this.buildDirPath);
                 const child = (0, child_process_1.spawn)("ctest", ["--show-only=json-v1"], { "cwd": this.buildDirPath });
                 let output = "";
                 child.stdout.on("data", (chunk) => {

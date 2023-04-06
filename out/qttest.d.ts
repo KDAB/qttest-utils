@@ -1,4 +1,5 @@
 type LoggerFunction = (arg: string) => void;
+export declare function logMessage(message: string): void;
 /**
  * Represents a single QtTest executable.
  * Supports listing the individual test slots
