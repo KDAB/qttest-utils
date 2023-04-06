@@ -52,6 +52,8 @@ async function example() {
         for (let slot of executable.slots!) {
             if (slot.lastTestFailure) {
                 console.log("        failed slot=" + slot.name + "; path=" + slot.lastTestFailure.filePath + "; line=" + slot.lastTestFailure.lineNumber);
+            } else {
+                console.log("        pass: " + slot.name)
             }
         }
     }
