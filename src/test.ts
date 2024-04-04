@@ -32,7 +32,7 @@ async function runTests(buildDirPath: string) {
         i++;
     }
 
-    // 2. Test that the disovered slots are correct:
+    // 2. Test that the discovered slots are correct:
     await qt.dumpTestSlots();
 
     interface ExpectedSlots {
