@@ -25,6 +25,15 @@ jobs:
       - name: tsc
         run: tsc
 
+      - name: Install ninja-build tool
+        uses: turtlesec-no/get-ninja@main
+
+      - name: Install Qt 5
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: 5.15.2
+          cache: true
+
       - name: Build Qt test
         run: |
           cmake --preset=dev -S test/qt_test/
