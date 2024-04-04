@@ -14,4 +14,8 @@ ENV LC_CTYPE=C.UTF-8
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ## Installs node 18v
-RUN apt update -qq && apt install build-essential software-properties-common lld git cmake ninja-build nodejs -y
+RUN apt update -qq && apt install build-essential software-properties-common lld git cmake ninja-build nodejs qtbase5-dev qt5-qmake -y
+RUN apt install npm -y
+
+# Install tsc globally, for convenience
+RUN npm install typescript -g
