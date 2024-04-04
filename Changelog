@@ -1,0 +1,54 @@
+# Changelog
+
+
+
+## [1.0.0] - 2024-04-04
+
+### 🧪 Testing
+
+- Add a proper test and add it to cI
+
+### ⚙️ Miscellaneous Tasks
+
+- Add a git-cliff configuration file
+- Add pre-commit support
+- README improvements
+- Add installation instructions to README
+- Add a Dockerfile with nodejs 18
+- *(ci)* Make pre-commit run on master branch
+- Update version in package-lock.json
+- *(docker)* Install npm, Qt5 and typescript
+- *(ci)* Run tsc in ci
+- *(ci)* Fix typo in yml file
+- *(ci)* Bump to checkout v4
+- *(ci)* Bump to setup-node v4
+- *(ci)* Rename main ci job to 'build'
+- *(vscode)* Add a workspace file
+- Formatted some code automatically
+- Fix typo in comment
+- *(ci)* Install Qt and ninja
+- Bump to version 1.0.0
+- Regenerate out/
+- Add a CONTRIBUTING.md file
+
+## [0.4.9] - 2023-04-06
+
+### 🧪 Testing
+
+- Make test3 abort at the beginning
+
+## [0.4.7] - 2023-04-02
+
+### 🧪 Testing
+
+- Rename the test slots
+
+### README
+
+- Explain how to run the example
+
+### Minor
+
+- Ran formatting
+- Pass the entire slot
+
