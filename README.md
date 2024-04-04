@@ -7,6 +7,8 @@ A [nodejs](https://www.npmjs.com/package/@iamsergio/qttest-utils) module for lis
 
 To be used by vscode extensions that implement the `Testing API`, but can also be used standalone for whatever reason ;).
 
+Used by [vscode-qttest](https://github.com/KDAB/vscode-qttest) extension.
+
 ## Installation
 
 ```bash
