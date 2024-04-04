@@ -13,6 +13,7 @@ export declare class QtTest {
     constructor(filename: string, buildDirPath: string);
     get id(): string;
     get label(): string;
+    relativeFilename(): string;
     /**
      * Calls "./yourqttest -functions" and stores the results in the slots property.
      */
