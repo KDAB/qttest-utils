@@ -8,7 +8,9 @@
 class MyTest : public QObject {
   Q_OBJECT
 private Q_SLOTS:
-  void testA() {}
+  void testA() {
+    QBENCHMARK { int a = 1; }
+  }
   void testB() {}
   void testC() {}
 };
