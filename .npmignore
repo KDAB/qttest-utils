@@ -4,3 +4,8 @@
 *.tgz
 *.log
 tsconfig.json
+.pre-commit-config.yaml
+/.github
+/.devcontainer
+vscode.code-workspace
+cliff.toml
