@@ -4,3 +4,4 @@
 /test/qt_test/.cache
 *.tgz
 *.log
+/out/

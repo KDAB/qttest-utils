@@ -47,6 +47,11 @@ export class QtTest {
         return path.basename(this.filename);
     }
 
+    public relativeFilename() {
+        let current_dir = process.cwd();
+        return this.filename.replace(current_dir + "/", "");
+    }
+
     /**
      * Calls "./yourqttest -functions" and stores the results in the slots property.
      */
