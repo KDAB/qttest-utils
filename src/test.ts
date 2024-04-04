@@ -7,8 +7,7 @@ import { QtTest, QtTests } from "./qttest";
 // Be sure to build the Qt tests with CMake first
 // See .github/workflows/ci.yml
 
-async function runTests(buildDirPath: string)
-{
+async function runTests(buildDirPath: string) {
     let qt = new QtTests();
     await qt.discoverViaCMake(buildDirPath);
 

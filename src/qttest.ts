@@ -100,9 +100,9 @@ export class QtTest {
 
     /**
      * Returns whether this executable links to libQtTest.so.
-     * 
+     *
      * Useful for Qt autodetection, as some tests are doctest or so.
-     * 
+     *
      * Only implemented for Linux. Returns undefined on other platforms.
      */
     public linksToQtTestLib(): Promise<boolean> | undefined {
