@@ -25,6 +25,8 @@ cargo install git-cliff
 
 ## Releasing
 
+(Replace 1.0.0 with actual version used)
+
 - Make sure Github Actions CI is green
 - Optional: To get a version compatible with semver, run `git cliff --bump`
 - Increase version in package.json and package-lock.json.
