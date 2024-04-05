@@ -54,6 +54,9 @@ export class QtTest {
         if (result.endsWith(".exe"))
             result = result.slice(0, -4);
 
+        // normalize slashes
+        result = result.replace(/\\/g, "/");
+
         return result;
     }
 
