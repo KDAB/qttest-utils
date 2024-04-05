@@ -48,8 +48,13 @@ export class QtTest {
     }
 
     public relativeFilename() {
-        let current_dir = process.cwd();
-        return this.filename.replace(current_dir + "/", "");
+        let result = path.relative(process.cwd(), this.filename);
+
+        // strip .exe, as we only use this for tests
+        if (result.endsWith(".exe"))
+            result = result.slice(0, -4);
+
+        return result;
     }
 
     /**
