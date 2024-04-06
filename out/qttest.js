@@ -70,8 +70,13 @@ class QtTest {
         return path_1.default.basename(this.filename);
     }
     relativeFilename() {
-        let current_dir = process.cwd();
-        return this.filename.replace(current_dir + "/", "");
+        let result = path_1.default.relative(process.cwd(), this.filename);
+        // strip .exe, as we only use this for tests
+        if (result.endsWith(".exe"))
+            result = result.slice(0, -4);
+        // normalize slashes
+        result = result.replace(/\\/g, "/");
+        return result;
     }
     /**
      * Calls "./yourqttest -functions" and stores the results in the slots property.
@@ -183,8 +188,8 @@ class QtTest {
         return undefined;
     }
     /// Runs this test
-    runTest(slot_1) {
-        return __awaiter(this, arguments, void 0, function* (slot, cwd = "") {
+    runTest(slot, cwd = "") {
+        return __awaiter(this, void 0, void 0, function* () {
             let args = [];
             if (slot) {
                 // Runs a single Qt test instead
