@@ -2,6 +2,32 @@
 
 
 
+## [1.1.0] - 2024-04-07
+
+### 🚀 Features
+
+- Added QtTest.verbose property
+
+### 🧪 Testing
+
+- Add a QBENCHMARK
+- Fix tests on windows
+- Fix more cases of wrong slashes
+- Test linksToQtTestLib too
+
+### ⚙️ Miscellaneous Tasks
+
+- Minor readme comment
+- Update .npmignore
+- Fix typo in README
+- Fix badge urls in README
+- Mention the vscode extension in the README
+- Remove duplicate vscode workspace file
+- Add macOS and Windows to CI
+- Make npm install be verose
+- Trying fixing the path for tsc on macos
+- Update packages
+
 ## [1.0.0] - 2024-04-04
 
 ### 🧪 Testing
@@ -30,6 +56,8 @@
 - Bump to version 1.0.0
 - Regenerate out/
 - Add a CONTRIBUTING.md file
+- Update changelog
+- Add ci badges to readme
 
 ## [0.4.9] - 2023-04-06
 
