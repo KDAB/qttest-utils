@@ -56,6 +56,8 @@ exports.logMessage = logMessage;
  */
 class QtTest {
     constructor(filename, buildDirPath) {
+        /// If true, will print more verbose output
+        this.verbose = false;
         /// The list of individual runnable test slots
         this.slots = null;
         /// Set after running
@@ -88,7 +90,7 @@ class QtTest {
             let err = "";
             yield new Promise((resolve, reject) => {
                 if (!fs.existsSync(this.filename)) {
-                    reject(new Error("File doesn't exit: " + this.filename));
+                    reject(new Error("qttest: File doesn't exit: " + this.filename));
                     return;
                 }
                 const child = (0, child_process_1.spawn)(this.filename, ["-functions"], { cwd: this.buildDirPath });
@@ -113,7 +115,7 @@ class QtTest {
                         resolve(slotNames);
                     }
                     else {
-                        reject(new Error("Failed to run -functions, stdout=" + output + "; stderr=" + err + "; code=" + code));
+                        reject(new Error("qttest: Failed to run -functions, stdout=" + output + "; stderr=" + err + "; code=" + code));
                     }
                 });
             });
@@ -141,13 +143,15 @@ class QtTest {
                         result = true;
                     }
                 }
+                if (this.verbose)
+                    console.log(chunk.toString());
             });
             child.on("exit", (code) => {
                 if (code === 0) {
                     resolve(result);
                 }
                 else {
-                    reject(new Error("Failed to run ldd"));
+                    reject(new Error("qttest: Failed to run ldd"));
                 }
             });
         });

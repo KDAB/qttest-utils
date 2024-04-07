@@ -7,6 +7,7 @@ export declare function logMessage(message: string): void;
 export declare class QtTest {
     readonly filename: string;
     readonly buildDirPath: string;
+    verbose: boolean;
     vscodeTestItem: any | undefined;
     slots: QtTestSlot[] | null;
     lastExitCode: number;
