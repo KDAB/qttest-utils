@@ -21,6 +21,8 @@ async function runTests(buildDirPath: string) {
         process.exit(1);
     }
 
+    await qt.removeNonLinking();
+
     // 1. Test that the executable test names are correct:
     var i = 0;
     for (var executable of qt.qtTestExecutables) {
@@ -70,6 +72,13 @@ async function runTests(buildDirPath: string) {
         } else if (!wasSuccess && expected_success[i]) {
             console.error("Expected test to pass: " + executable.filename);
             process.exit(1);
+        }
+
+        if (process.platform === "linux") {
+            if (!executable.linksToQtTestLib()) {
+                console.error("Expected test to link to QtTest: " + executable.filename);
+                process.exit(1);
+            }
         }
 
         i++;
