@@ -133,7 +133,7 @@ export class QtTest {
                 }
 
                 if (this.verbose)
-                    console.log(chunk.toString());
+                    logMessage(chunk.toString());
             });
 
             child.on("exit", (code) => {
