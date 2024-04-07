@@ -2,6 +2,16 @@
 
 
 
+## [1.1.1] - 2024-04-07
+
+### 🐛 Bug Fixes
+
+- Verbose logging not appearing in vscode
+
+### ⚙️ Miscellaneous Tasks
+
+- Improve CONTRIBUTING.md
+
 ## [1.1.0] - 2024-04-07
 
 ### 🚀 Features
@@ -27,6 +37,7 @@
 - Make npm install be verose
 - Trying fixing the path for tsc on macos
 - Update packages
+- Bump version
 
 ## [1.0.0] - 2024-04-04
 
