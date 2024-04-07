@@ -122,6 +122,10 @@ export class QtTest {
         if (!isLinux) { return undefined; }
 
         return new Promise((resolve, reject) => {
+
+            if (this.verbose)
+                logMessage("qttest: Running ldd on " + this.filename);
+
             const child = spawn("ldd", [this.filename]);
             let output = "";
             let result = false;
