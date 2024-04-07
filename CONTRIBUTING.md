@@ -34,5 +34,4 @@ export NEW_VERSION=v1.0.0
 - git cliff --tag $NEW_VERSION > Changelog
 - git add Changelog package.json package-lock.json && git commit -m "chore: bump version"
 - git tag -a ${NEW_VERSION} -m "${NEW_VERSION}"
-- git push && git push --tags
-- npm publish
+- git push && git push --tags && npm publish
