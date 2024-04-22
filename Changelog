@@ -2,11 +2,23 @@
 
 
 
+## [1.2.0] - 2024-04-22
+
+### 🚀 Features
+
+- Added executablesContainingSlot(name) public method
+
+### 📚 Documentation
+
+- Minor CONTRIBUTIND.md improvement
+- Minor CONTRIBUTIND.md improvement
+
 ## [1.1.2] - 2024-04-07
 
 ### ⚙️ Miscellaneous Tasks
 
 - Add more logging
+- Bump version
 
 ## [1.1.1] - 2024-04-07
 
