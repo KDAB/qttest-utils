@@ -134,6 +134,8 @@ class QtTest {
             return undefined;
         }
         return new Promise((resolve, reject) => {
+            if (this.verbose)
+                logMessage("qttest: Running ldd on " + this.filename);
             const child = (0, child_process_1.spawn)("ldd", [this.filename]);
             let output = "";
             let result = false;
@@ -144,7 +146,7 @@ class QtTest {
                     }
                 }
                 if (this.verbose)
-                    console.log(chunk.toString());
+                    logMessage(chunk.toString());
             });
             child.on("exit", (code) => {
                 if (code === 0) {
@@ -389,6 +391,16 @@ class QtTests {
                 }
             }
         });
+    }
+    /// Returns all executables that contain a Qt test slot with the specified name
+    executablesContainingSlot(slotName) {
+        let result = [];
+        for (let ex of this.qtTestExecutables) {
+            if (ex.slotByName(slotName)) {
+                result.push(ex);
+            }
+        }
+        return result;
     }
 }
 exports.QtTests = QtTests;

@@ -406,6 +406,17 @@ export class QtTests {
             }
         }
     }
+
+    /// Returns all executables that contain a Qt test slot with the specified name
+    public executablesContainingSlot(slotName: string): QtTest[] {
+        let result: QtTest[] = [];
+        for (let ex of this.qtTestExecutables) {
+            if (ex.slotByName(slotName)) {
+                result.push(ex);
+            }
+        }
+        return result;
+    }
 }
 
 /// Represents a failure location

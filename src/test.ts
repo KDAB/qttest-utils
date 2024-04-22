@@ -98,6 +98,24 @@ async function runTests(buildDirPath: string) {
         console.error("Expected test to fail: " + slot2.name);
         process.exit(1);
     }
+
+    // 5. Test executablesContainingSlot
+    let executables = qt.executablesContainingSlot("testB");
+    if (executables.length != 1) {
+        console.error("Expected 1 executable, got " + executables.length);
+        process.exit(1);
+    }
+
+    if (!executables[0].filename.endsWith("test1")) {
+        console.error("Expected filename to end with test1");
+        process.exit(1);
+    }
+
+    executables = qt.executablesContainingSlot("non_existing");
+    if (executables.length != 0) {
+        console.error("Expected 0 executables, got " + executables.length);
+        process.exit(1);
+    }
 }
 
 runTests("test/qt_test/build-dev/");

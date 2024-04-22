@@ -71,6 +71,7 @@ export declare class QtTests {
     maintainMatching(regex: RegExp): void;
     dumpExecutablePaths(): void;
     dumpTestSlots(): Promise<void>;
+    executablesContainingSlot(slotName: string): QtTest[];
 }
 export interface TestFailure {
     name: string;
