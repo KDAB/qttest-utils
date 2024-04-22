@@ -63,6 +63,15 @@ export class QtTest {
         return result;
     }
 
+    /// returns filename without .exe extension
+    public filenameWithoutExtension() {
+        let result = this.filename;
+        if (result.endsWith(".exe"))
+            result = result.slice(0, -4);
+
+        return result;
+    }
+
     /**
      * Calls "./yourqttest -functions" and stores the results in the slots property.
      */

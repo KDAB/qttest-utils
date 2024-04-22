@@ -106,7 +106,7 @@ async function runTests(buildDirPath: string) {
         process.exit(1);
     }
 
-    if (!executables[0].filename.endsWith("test1")) {
+    if (!executables[0].filenameWithoutExtension().endsWith("test1")) {
         console.error("Expected filename to end with test1");
         process.exit(1);
     }

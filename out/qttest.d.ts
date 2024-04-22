@@ -15,6 +15,7 @@ export declare class QtTest {
     get id(): string;
     get label(): string;
     relativeFilename(): string;
+    filenameWithoutExtension(): string;
     /**
      * Calls "./yourqttest -functions" and stores the results in the slots property.
      */

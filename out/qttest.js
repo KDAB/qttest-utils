@@ -80,6 +80,13 @@ class QtTest {
         result = result.replace(/\\/g, "/");
         return result;
     }
+    /// returns filename without .exe extension
+    filenameWithoutExtension() {
+        let result = this.filename;
+        if (result.endsWith(".exe"))
+            result = result.slice(0, -4);
+        return result;
+    }
     /**
      * Calls "./yourqttest -functions" and stores the results in the slots property.
      */
