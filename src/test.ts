@@ -131,7 +131,7 @@ async function runCodeModelTests(codeModelFile: string) {
         process.exit(1);
     }
 
-    if (files[0] != "/vscode-qttest/test/qt_test/test1.cpp") {
+    if (files[0].replace("\\", "/") != "/vscode-qttest/test/qt_test/test1.cpp") {
         console.error("Expected /vscode-qttest/test/qt_test/test1.cpp, got " + files[0]);
         process.exit(1);
     }
