@@ -8,11 +8,11 @@ import { logMessage } from "./qttest";
 
 /**
  * Represents tests added in cmake (Via add_test())
- * 
+ *
  * Contains methods to discover Qt Tests via CMake
  */
 export class CMakeTests {
-    // The build dir where we'll run 
+    // The build dir where we'll run
     readonly buildDirPath: string;
 
     constructor(buildDirPath: string) {
@@ -21,7 +21,7 @@ export class CMakeTests {
 
     /**
      * Invokes ctest.exe --show-only=json-v1
-     * 
+     *
      * @returns a promise with the list of tests
      */
     public async tests(): Promise<CMakeTest[] | undefined> {
@@ -67,6 +67,72 @@ export class CMakeTests {
 
         return tests;
     }
+
+    // Returns the list of .cpp files for the specified executable
+    // codemodel is the CMake codemodel JSON object
+    public cppFilesForExecutable(executable: string, codemodel: any): string[] {
+
+        // simplify:
+        if (executable.endsWith(".exe")) {
+            executable = executable.substring(0, executable.length - 4);
+        }
+
+        let projects = codemodel["projects"];
+        if (!projects) {
+            return [];
+        }
+
+        for (let project of projects) {
+            let targets = project["targets"];
+            if (!targets) {
+                continue;
+            }
+
+            for (let target of targets) {
+                let sourceDir = target["sourceDirectory"];
+                let artifacts = target["artifacts"];
+                if (!artifacts || !sourceDir) {
+                    continue;
+                }
+
+                for (let artifact of artifacts) {
+                    if (artifact.endsWith(".exe")) {
+                        artifact = artifact.substring(0, artifact.length - 4);
+                    }
+
+                    if (artifact == executable) {
+                        let fileGroups = target["fileGroups"];
+                        if (!fileGroups) {
+                            continue;
+                        }
+                        for (let fileGroup of fileGroups) {
+                            if (fileGroup["language"] != "CXX" || fileGroup["isGenerated"]) {
+                                continue;
+                            }
+
+                            let sources = fileGroup["sources"];
+                            if (!sources) {
+                                continue;
+                            }
+
+                            let cppFiles: string[] = [];
+                            for (let source of sources) {
+                                if (!source.endsWith("mocs_compilation.cpp")) {
+                                    cppFiles.push(path.join(sourceDir, source));
+                                }
+                            }
+
+                            return cppFiles;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return [];
+    }
+
 }
 
 

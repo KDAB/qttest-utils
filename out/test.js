@@ -12,6 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cmake_1 = require("./cmake");
 const qttest_1 = require("./qttest");
 // Be sure to build the Qt tests with CMake first
 // See .github/workflows/ci.yml
@@ -109,4 +110,22 @@ function runTests(buildDirPath) {
         }
     });
 }
+function runCodeModelTests(codeModelFile) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const fs = require('fs');
+        let codemodelStr = fs.readFileSync(codeModelFile, 'utf8');
+        let codemodelJson = JSON.parse(codemodelStr);
+        let cmake = new cmake_1.CMakeTests("random");
+        let files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test1", codemodelJson);
+        if (files.length != 1) {
+            console.error("Expected 1 file, got " + files.length);
+            process.exit(1);
+        }
+        if (files[0] != "/vscode-qttest/test/qt_test/test1.cpp") {
+            console.error("Expected /vscode-qttest/test/qt_test/test1.cpp, got " + files[0]);
+            process.exit(1);
+        }
+    });
+}
 runTests("test/qt_test/build-dev/");
+runCodeModelTests("test/test_cmake_codemodel.json");

@@ -13,6 +13,7 @@ export declare class CMakeTests {
      */
     tests(): Promise<CMakeTest[] | undefined>;
     private ctestJsonToList;
+    cppFilesForExecutable(executable: string, codemodel: any): string[];
 }
 export declare class CMakeTest {
     command: string[];
