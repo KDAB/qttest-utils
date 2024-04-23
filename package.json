@@ -1,6 +1,6 @@
 {
   "name": "@iamsergio/qttest-utils",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "API for listing QtTest executables from a build directory and which individual test slots each executable contains. Useful for a Text Explorer VSCode extension.",
   "repository": {
     "type": "git",
