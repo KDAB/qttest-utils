@@ -132,7 +132,7 @@ async function runCodeModelTests(codeModelFile: string) {
     }
 
     let expected = "/vscode-qttest/test/qt_test/test1.cpp";
-    let got = files[0].replace("\\", "/");
+    let got = files[0].replace(/\\/g, "/");
 
     if (got != expected) {
         console.error("Expected " + expected + ", got " + got);
