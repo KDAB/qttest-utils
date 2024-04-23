@@ -123,6 +123,7 @@ class CMakeTests {
                 }
             }
         }
+        (0, qttest_1.logMessage)("cppFilesForExecutable: Could not find cpp files for executable " + executable);
         return [];
     }
 }

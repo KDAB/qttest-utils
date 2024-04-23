@@ -129,7 +129,7 @@ export class CMakeTests {
             }
         }
 
-
+        logMessage("cppFilesForExecutable: Could not find cpp files for executable " + executable);
         return [];
     }
 
