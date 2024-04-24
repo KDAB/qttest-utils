@@ -211,15 +211,16 @@ class QtTest {
             else {
                 this.clearSubTestStates();
             }
-            // log to file
+            // log to file and to stdout
             args = args.concat("-o").concat(this.tapOutputFileName(slot) + ",tap");
             args = args.concat("-o").concat(this.txtOutputFileName(slot) + ",txt");
+            args = args.concat("-o").concat("-,txt");
             return yield new Promise((resolve, reject) => {
                 let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
                 logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
                 const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
                 child.on("exit", (code) => __awaiter(this, void 0, void 0, function* () {
-                    /// We can code even be null ?
+                    /// Can code even be null ?
                     if (code == undefined)
                         code = -1;
                     if (!slot) {

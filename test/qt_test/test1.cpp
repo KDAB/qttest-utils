@@ -2,6 +2,7 @@
 // company <info@kdab.com> Author: Sergio Martins <sergio.martins@kdab.com>
 // SPDX-License-Identifier: MIT
 
+#include <QDebug>
 #include <QObject>
 #include <QtTest>
 
@@ -12,7 +13,7 @@ private Q_SLOTS:
     QBENCHMARK { int a = 1; }
   }
   void testB() {}
-  void testC() {}
+  void testC() { qDebug() << "MyTest::testC()"; }
 };
 
 QTEST_MAIN(MyTest);

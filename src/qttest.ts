@@ -206,9 +206,10 @@ export class QtTest {
             this.clearSubTestStates();
         }
 
-        // log to file
+        // log to file and to stdout
         args = args.concat("-o").concat(this.tapOutputFileName(slot) + ",tap");
         args = args.concat("-o").concat(this.txtOutputFileName(slot) + ",txt");
+        args = args.concat("-o").concat("-,txt");
 
         return await new Promise((resolve, reject) => {
             let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
@@ -216,8 +217,7 @@ export class QtTest {
             const child = spawn(this.filename, args, { cwd: cwdDir });
 
             child.on("exit", async (code) => {
-
-                /// We can code even be null ?
+                /// Can code even be null ?
                 if (code == undefined) code = -1;
 
                 if (!slot) {
