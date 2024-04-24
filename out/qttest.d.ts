@@ -30,7 +30,7 @@ export declare class QtTest {
     linksToQtTestLib(): Promise<boolean> | undefined;
     isQtTestViaHelp(): Promise<boolean | undefined>;
     slotByName(name: string): QtTestSlot | undefined;
-    runTest(slot?: QtTestSlot, cwd?: string): Promise<boolean>;
+    runTest(slot?: QtTestSlot, cwd?: string, outputFunc?: LoggerFunction | undefined): Promise<boolean>;
     tapOutputFileName(slot?: QtTestSlot): string;
     txtOutputFileName(slot?: QtTestSlot): string;
     command(): {

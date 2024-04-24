@@ -201,7 +201,7 @@ class QtTest {
         return undefined;
     }
     /// Runs this test
-    runTest(slot, cwd = "") {
+    runTest(slot, cwd = "", outputFunc = undefined) {
         return __awaiter(this, void 0, void 0, function* () {
             let args = [];
             if (slot) {
@@ -219,6 +219,15 @@ class QtTest {
                 let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
                 logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
                 const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
+                if (outputFunc) {
+                    // Callers wants the process output:
+                    child.stdout.on("data", (chunk) => {
+                        outputFunc(chunk.toString());
+                    });
+                    child.stderr.on("data", (chunk) => {
+                        outputFunc(chunk.toString());
+                    });
+                }
                 child.on("exit", (code) => __awaiter(this, void 0, void 0, function* () {
                     /// Can code even be null ?
                     if (code == undefined)

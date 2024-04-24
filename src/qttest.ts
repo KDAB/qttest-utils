@@ -197,7 +197,7 @@ export class QtTest {
     }
 
     /// Runs this test
-    public async runTest(slot?: QtTestSlot, cwd: string = ""): Promise<boolean> {
+    public async runTest(slot?: QtTestSlot, cwd: string = "", outputFunc: LoggerFunction | undefined = undefined): Promise<boolean> {
         let args: string[] = [];
         if (slot) {
             // Runs a single Qt test instead
@@ -215,6 +215,17 @@ export class QtTest {
             let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
             logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
             const child = spawn(this.filename, args, { cwd: cwdDir });
+
+            if (outputFunc) {
+                // Callers wants the process output:
+                child.stdout.on("data", (chunk) => {
+                    outputFunc(chunk.toString());
+                });
+
+                child.stderr.on("data", (chunk) => {
+                    outputFunc(chunk.toString());
+                });
+            }
 
             child.on("exit", async (code) => {
                 /// Can code even be null ?
