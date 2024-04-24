@@ -37,6 +37,9 @@ export class QtTest {
     /// Set after running
     lastExitCode: number = 0;
 
+    /// Allows the caller to receive the output of the test process
+    outputFunc: LoggerFunction | undefined = undefined;
+
     constructor(filename: string, buildDirPath: string) {
         this.filename = filename;
         this.buildDirPath = buildDirPath;
@@ -197,7 +200,7 @@ export class QtTest {
     }
 
     /// Runs this test
-    public async runTest(slot?: QtTestSlot, cwd: string = "", outputFunc: LoggerFunction | undefined = undefined): Promise<boolean> {
+    public async runTest(slot?: QtTestSlot, cwd: string = ""): Promise<boolean> {
         let args: string[] = [];
         if (slot) {
             // Runs a single Qt test instead
@@ -216,14 +219,16 @@ export class QtTest {
             logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
             const child = spawn(this.filename, args, { cwd: cwdDir });
 
-            if (outputFunc) {
+            if (this.outputFunc) {
                 // Callers wants the process output:
                 child.stdout.on("data", (chunk) => {
-                    outputFunc(chunk.toString());
+                    if (this.outputFunc)
+                        this.outputFunc(chunk.toString());
                 });
 
                 child.stderr.on("data", (chunk) => {
-                    outputFunc(chunk.toString());
+                    if (this.outputFunc)
+                        this.outputFunc(chunk.toString());
                 });
             }
 

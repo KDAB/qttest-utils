@@ -62,6 +62,8 @@ class QtTest {
         this.slots = null;
         /// Set after running
         this.lastExitCode = 0;
+        /// Allows the caller to receive the output of the test process
+        this.outputFunc = undefined;
         this.filename = filename;
         this.buildDirPath = buildDirPath;
     }
@@ -201,7 +203,7 @@ class QtTest {
         return undefined;
     }
     /// Runs this test
-    runTest(slot, cwd = "", outputFunc = undefined) {
+    runTest(slot, cwd = "") {
         return __awaiter(this, void 0, void 0, function* () {
             let args = [];
             if (slot) {
@@ -219,13 +221,15 @@ class QtTest {
                 let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
                 logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
                 const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
-                if (outputFunc) {
+                if (this.outputFunc) {
                     // Callers wants the process output:
                     child.stdout.on("data", (chunk) => {
-                        outputFunc(chunk.toString());
+                        if (this.outputFunc)
+                            this.outputFunc(chunk.toString());
                     });
                     child.stderr.on("data", (chunk) => {
-                        outputFunc(chunk.toString());
+                        if (this.outputFunc)
+                            this.outputFunc(chunk.toString());
                     });
                 }
                 child.on("exit", (code) => __awaiter(this, void 0, void 0, function* () {
