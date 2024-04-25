@@ -95,6 +95,9 @@ export class CMakeTests {
                     continue;
                 }
 
+                let targetType = target["type"];
+                if (targetType != "EXECUTABLE") continue;
+
                 for (let artifact of artifacts) {
                     if (artifact.endsWith(".exe")) {
                         artifact = artifact.substring(0, artifact.length - 4);
