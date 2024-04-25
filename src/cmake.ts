@@ -84,9 +84,7 @@ export class CMakeTests {
 
         for (let project of projects) {
             let targets = project["targets"];
-            if (!targets) {
-                continue;
-            }
+            if (!targets) continue;
 
             for (let target of targets) {
                 let sourceDir = target["sourceDirectory"];
@@ -105,18 +103,14 @@ export class CMakeTests {
 
                     if (artifact == executable) {
                         let fileGroups = target["fileGroups"];
-                        if (!fileGroups) {
-                            continue;
-                        }
+                        if (!fileGroups) continue;
+
                         for (let fileGroup of fileGroups) {
-                            if (fileGroup["language"] != "CXX" || fileGroup["isGenerated"]) {
+                            if (fileGroup["language"] != "CXX" || fileGroup["isGenerated"])
                                 continue;
-                            }
 
                             let sources = fileGroup["sources"];
-                            if (!sources) {
-                                continue;
-                            }
+                            if (!sources) continue;
 
                             let cppFiles: string[] = [];
                             for (let source of sources) {
@@ -135,9 +129,7 @@ export class CMakeTests {
         logMessage("cppFilesForExecutable: Could not find cpp files for executable " + executable);
         return [];
     }
-
 }
-
 
 /// Represents an inividual CTest test
 export class CMakeTest {
