@@ -13,8 +13,9 @@ export declare class CMakeTests {
      */
     tests(): Promise<CMakeTest[] | undefined>;
     private ctestJsonToList;
-    targetNameForExecutable(executable: string, codemodel: any): string | undefined;
-    cppFilesForExecutable(executable: string, codemodel: any): string[];
+    targetNameForExecutable(executable: string, codemodel: any, workaround?: boolean): string | undefined;
+    filenamesAreEqual(file1: string, file2: string, workaround?: boolean): boolean;
+    cppFilesForExecutable(executable: string, codemodel: any, workaround?: boolean): string[];
 }
 export declare class CMakeTest {
     command: string[];

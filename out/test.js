@@ -143,6 +143,27 @@ function runCodeModelTests(codeModelFile) {
             console.error("Expected test2, got " + targetName);
             process.exit(1);
         }
+        // test workaround for microsoft/vscode-cmake-tools-api/issues/7
+        files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ false);
+        if (files.length !== 0) {
+            console.error("Expected 0 files, got " + files.length);
+            process.exit(1);
+        }
+        files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ true);
+        if (files.length !== 1) {
+            console.error("Expected 0 files, got " + files.length);
+            process.exit(1);
+        }
+        targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ false);
+        if (targetName) {
+            console.error("Expected null, got " + targetName);
+            process.exit(1);
+        }
+        targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ true);
+        if (targetName != "test3") {
+            console.error("Expected null, got " + targetName);
+            process.exit(1);
+        }
     });
 }
 runTests("test/qt_test/build-dev/");

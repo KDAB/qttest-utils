@@ -261,8 +261,9 @@
                     "type": "EXECUTABLE",
                     "sourceDirectory": "/vscode-qttest/test/qt_test",
                     "fullName": "test3",
+                    "description": "buggy artifact path on purpose",
                     "artifacts": [
-                        "/vscode-qttest/test/qt_test/build-dev/test3"
+                        "/vscode-qttest/test/qt_test/build-dev/test/bin/test3"
                     ],
                     "fileGroups": [
                         {
