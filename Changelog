@@ -2,11 +2,32 @@
 
 
 
+## [2.1.0] - 2024-04-25
+
+### 🚀 Features
+
+- Add targetNameForExecutable()
+
+### 🐛 Bug Fixes
+
+- Ignore non-executable targets
+
+### ⚙️ Miscellaneous Tasks
+
+- Coding style improvement
+- Update CONTRIBUTING.md file
+- Fix build on macOS
+- Improve CONTRIBUTING.md
+
 ## [2.0.0] - 2024-04-24
 
 ### 🚀 Features
 
 - [**breaking**] Use a member to hold the output function
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version
 
 ## [1.4.0] - 2024-04-24
 
