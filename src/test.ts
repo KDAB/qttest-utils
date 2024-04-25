@@ -138,6 +138,12 @@ async function runCodeModelTests(codeModelFile: string) {
         console.error("Expected " + expected + ", got " + got);
         process.exit(1);
     }
+
+    let targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test1", codemodelJson);
+    if (targetName != "test1") {
+        console.error("Expected test1, got " + targetName);
+        process.exit(1);
+    }
 }
 
 runTests("test/qt_test/build-dev/");

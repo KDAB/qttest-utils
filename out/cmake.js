@@ -72,6 +72,39 @@ class CMakeTests {
         });
         return tests;
     }
+    /// Returns the cmake target name for the specified executable
+    targetNameForExecutable(executable, codemodel) {
+        // simplify:
+        if (executable.endsWith(".exe")) {
+            executable = executable.substring(0, executable.length - 4);
+        }
+        let projects = codemodel["projects"];
+        if (!projects)
+            return undefined;
+        for (let project of projects) {
+            let targets = project["targets"];
+            if (!targets)
+                continue;
+            for (let target of targets) {
+                let artifacts = target["artifacts"];
+                if (!artifacts)
+                    continue;
+                for (let artifact of artifacts) {
+                    if (artifact.endsWith(".exe")) {
+                        artifact = artifact.substring(0, artifact.length - 4);
+                    }
+                    if (artifact == executable) {
+                        let name = target["name"];
+                        if (name) {
+                            // We found the target name
+                            return name;
+                        }
+                    }
+                }
+            }
+        }
+        return undefined;
+    }
     // Returns the list of .cpp files for the specified executable
     // codemodel is the CMake codemodel JSON object
     cppFilesForExecutable(executable, codemodel) {
@@ -80,37 +113,34 @@ class CMakeTests {
             executable = executable.substring(0, executable.length - 4);
         }
         let projects = codemodel["projects"];
-        if (!projects) {
+        if (!projects)
             return [];
-        }
         for (let project of projects) {
             let targets = project["targets"];
-            if (!targets) {
+            if (!targets)
                 continue;
-            }
             for (let target of targets) {
                 let sourceDir = target["sourceDirectory"];
                 let artifacts = target["artifacts"];
-                if (!artifacts || !sourceDir) {
+                if (!artifacts || !sourceDir)
                     continue;
-                }
+                let targetType = target["type"];
+                if (targetType != "EXECUTABLE")
+                    continue;
                 for (let artifact of artifacts) {
                     if (artifact.endsWith(".exe")) {
                         artifact = artifact.substring(0, artifact.length - 4);
                     }
                     if (artifact == executable) {
                         let fileGroups = target["fileGroups"];
-                        if (!fileGroups) {
+                        if (!fileGroups)
                             continue;
-                        }
                         for (let fileGroup of fileGroups) {
-                            if (fileGroup["language"] != "CXX" || fileGroup["isGenerated"]) {
+                            if (fileGroup["language"] != "CXX" || fileGroup["isGenerated"])
                                 continue;
-                            }
                             let sources = fileGroup["sources"];
-                            if (!sources) {
+                            if (!sources)
                                 continue;
-                            }
                             let cppFiles = [];
                             for (let source of sources) {
                                 if (!source.endsWith("mocs_compilation.cpp")) {

@@ -68,6 +68,43 @@ export class CMakeTests {
         return tests;
     }
 
+    /// Returns the cmake target name for the specified executable
+    public targetNameForExecutable(executable: string, codemodel: any): string | undefined {
+        // simplify:
+        if (executable.endsWith(".exe")) {
+            executable = executable.substring(0, executable.length - 4);
+        }
+
+        let projects = codemodel["projects"];
+        if (!projects) return undefined;
+
+        for (let project of projects) {
+            let targets = project["targets"];
+            if (!targets) continue;
+
+            for (let target of targets) {
+                let artifacts = target["artifacts"];
+                if (!artifacts) continue;
+
+                for (let artifact of artifacts) {
+                    if (artifact.endsWith(".exe")) {
+                        artifact = artifact.substring(0, artifact.length - 4);
+                    }
+
+                    if (artifact == executable) {
+                        let name = target["name"];
+                        if (name) {
+                            // We found the target name
+                            return name;
+                        }
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    }
+
     // Returns the list of .cpp files for the specified executable
     // codemodel is the CMake codemodel JSON object
     public cppFilesForExecutable(executable: string, codemodel: any): string[] {
@@ -78,9 +115,7 @@ export class CMakeTests {
         }
 
         let projects = codemodel["projects"];
-        if (!projects) {
-            return [];
-        }
+        if (!projects) return [];
 
         for (let project of projects) {
             let targets = project["targets"];
@@ -89,9 +124,7 @@ export class CMakeTests {
             for (let target of targets) {
                 let sourceDir = target["sourceDirectory"];
                 let artifacts = target["artifacts"];
-                if (!artifacts || !sourceDir) {
-                    continue;
-                }
+                if (!artifacts || !sourceDir) continue;
 
                 let targetType = target["type"];
                 if (targetType != "EXECUTABLE") continue;
