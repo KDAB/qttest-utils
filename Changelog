@@ -2,6 +2,16 @@
 
 
 
+## [2.1.1] - 2024-04-25
+
+### 🐛 Bug Fixes
+
+- Allow for backslashes in the cmake codemodel
+
+### ⚙️ Miscellaneous Tasks
+
+- Improve CONTRIBUTING.md
+
 ## [2.1.0] - 2024-04-25
 
 ### 🚀 Features
@@ -18,6 +28,7 @@
 - Update CONTRIBUTING.md file
 - Fix build on macOS
 - Improve CONTRIBUTING.md
+- Bump version
 
 ## [2.0.0] - 2024-04-24
 
