@@ -168,8 +168,9 @@
                     "type": "EXECUTABLE",
                     "sourceDirectory": "/vscode-qttest/test/qt_test",
                     "fullName": "test2",
+                    "description": "test for windows",
                     "artifacts": [
-                        "/vscode-qttest/test/qt_test/build-dev/test2"
+                        "/vscode-qttest\\test\\qt_test\\build-dev\\test2.exe"
                     ],
                     "fileGroups": [
                         {

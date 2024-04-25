@@ -69,11 +69,15 @@ export class CMakeTests {
     }
 
     /// Returns the cmake target name for the specified executable
+    /// codemodel should have a "projects" key at root.
     public targetNameForExecutable(executable: string, codemodel: any): string | undefined {
         // simplify:
         if (executable.endsWith(".exe")) {
             executable = executable.substring(0, executable.length - 4);
         }
+
+        // replace backslashes with forward slashes
+        executable = executable.replace(/\\/g, "/");
 
         let projects = codemodel["projects"];
         if (!projects) return undefined;
@@ -91,6 +95,9 @@ export class CMakeTests {
                         artifact = artifact.substring(0, artifact.length - 4);
                     }
 
+                    // replace backslashes with forward slashes
+                    artifact = artifact.replace(/\\/g, "/");
+
                     if (artifact == executable) {
                         let name = target["name"];
                         if (name) {
@@ -105,14 +112,18 @@ export class CMakeTests {
         return undefined;
     }
 
-    // Returns the list of .cpp files for the specified executable
-    // codemodel is the CMake codemodel JSON object
+    /// Returns the list of .cpp files for the specified executable
+    /// codemodel is the CMake codemodel JSON object
+    /// codemodel should have a "projects" key at root.
     public cppFilesForExecutable(executable: string, codemodel: any): string[] {
 
         // simplify:
         if (executable.endsWith(".exe")) {
             executable = executable.substring(0, executable.length - 4);
         }
+
+        // replace backslashes with forward slashes
+        executable = executable.replace(/\\/g, "/");
 
         let projects = codemodel["projects"];
         if (!projects) return [];
@@ -133,6 +144,9 @@ export class CMakeTests {
                     if (artifact.endsWith(".exe")) {
                         artifact = artifact.substring(0, artifact.length - 4);
                     }
+
+                    // replace backslashes with forward slashes
+                    artifact = artifact.replace(/\\/g, "/");
 
                     if (artifact == executable) {
                         let fileGroups = target["fileGroups"];

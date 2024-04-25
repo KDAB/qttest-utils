@@ -144,6 +144,21 @@ async function runCodeModelTests(codeModelFile: string) {
         console.error("Expected test1, got " + targetName);
         process.exit(1);
     }
+
+    // test windows back slashes:
+
+    files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test2", codemodelJson);
+    if (files.length != 1) {
+        console.error("Expected 1 file, got " + files.length);
+        process.exit(1);
+    }
+
+    targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test2", codemodelJson);
+    if (targetName != "test2") {
+        console.error("Expected test2, got " + targetName);
+        process.exit(1);
+    }
+
 }
 
 runTests("test/qt_test/build-dev/");
