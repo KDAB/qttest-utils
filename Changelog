@@ -2,6 +2,12 @@
 
 
 
+## [2.2.0] - 2024-04-25
+
+### 🚀 Features
+
+- Allow to workaround microsoft/vscode-cmake-tools-api/issues/7
+
 ## [2.1.1] - 2024-04-25
 
 ### 🐛 Bug Fixes
@@ -11,6 +17,7 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Improve CONTRIBUTING.md
+- Bump version
 
 ## [2.1.0] - 2024-04-25
 
