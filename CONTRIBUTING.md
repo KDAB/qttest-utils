@@ -26,10 +26,9 @@ cargo install git-cliff
 ## Releasing
 
 (Replace 1.0.0 with actual version used)
-
-export NEW_VERSION=v1.0.0
+- Get a version compatible with semver, run `git cliff --bump`, replace NEW_VERSION
+- export NEW_VERSION=v1.0.0
 - Make sure Github Actions CI is green
-- Optional: To get a version compatible with semver, run `git cliff --bump`
-- Increase version in package.json and package-lock.json.
+- npm version $NEW_VERSION
 - git cliff --tag $NEW_VERSION > Changelog
 - git add Changelog package.json package-lock.json && git commit -m "chore: bump version" && git tag -a ${NEW_VERSION} -m "${NEW_VERSION}" && git push && git push --tags && npm publish
