@@ -23,7 +23,7 @@ function runTests(buildDirPath) {
         let expected_executables = [
             "test/qt_test/build-dev/test1",
             "test/qt_test/build-dev/test2",
-            "test/qt_test/build-dev/test3"
+            "test/qt_test/build-dev/test3",
         ];
         if (qt.qtTestExecutables.length != expected_executables.length) {
             console.error("Expected 3 executables, got " + qt.qtTestExecutables.length);
@@ -35,7 +35,10 @@ function runTests(buildDirPath) {
         for (var executable of qt.qtTestExecutables) {
             let expected = expected_executables[i];
             if (executable.relativeFilename() != expected) {
-                console.error("Expected executable " + expected + ", got " + executable.relativeFilename());
+                console.error("Expected executable " +
+                    expected +
+                    ", got " +
+                    executable.relativeFilename());
                 process.exit(1);
             }
             i++;
@@ -112,8 +115,8 @@ function runTests(buildDirPath) {
 }
 function runCodeModelTests(codeModelFile) {
     return __awaiter(this, void 0, void 0, function* () {
-        const fs = require('fs');
-        let codemodelStr = fs.readFileSync(codeModelFile, 'utf8');
+        const fs = require("fs");
+        let codemodelStr = fs.readFileSync(codeModelFile, "utf8");
         let codemodelJson = JSON.parse(codemodelStr);
         let cmake = new cmake_1.CMakeTests("random");
         let files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test1", codemodelJson);
@@ -144,22 +147,26 @@ function runCodeModelTests(codeModelFile) {
             process.exit(1);
         }
         // test workaround for microsoft/vscode-cmake-tools-api/issues/7
-        files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ false);
+        files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, 
+        /*workaround=*/ false);
         if (files.length !== 0) {
             console.error("Expected 0 files, got " + files.length);
             process.exit(1);
         }
-        files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ true);
+        files = cmake.cppFilesForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, 
+        /*workaround=*/ true);
         if (files.length !== 1) {
             console.error("Expected 0 files, got " + files.length);
             process.exit(1);
         }
-        targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ false);
+        targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, 
+        /*workaround=*/ false);
         if (targetName) {
             console.error("Expected null, got " + targetName);
             process.exit(1);
         }
-        targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, /*workaround=*/ true);
+        targetName = cmake.targetNameForExecutable("/vscode-qttest/test/qt_test/build-dev/test3", codemodelJson, 
+        /*workaround=*/ true);
         if (targetName != "test3") {
             console.error("Expected null, got " + targetName);
             process.exit(1);
