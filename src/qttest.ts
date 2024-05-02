@@ -252,7 +252,11 @@ export class QtTest {
           this.lastExitCode = code;
         }
 
-        await this.updateSubTestStates(cwdDir, slot);
+        if (this.slots && this.slots.length > 0) {
+          /// When running a QtTest executable, let's check which sub-tests failed
+          /// (So VSCode can show some error icon for each fail)
+          await this.updateSubTestStates(cwdDir, slot);
+        }
 
         if (code === 0) {
           resolve(true);

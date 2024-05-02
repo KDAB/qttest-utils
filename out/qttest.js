@@ -102,7 +102,9 @@ class QtTest {
                     reject(new Error("qttest: File doesn't exit: " + this.filename));
                     return;
                 }
-                const child = (0, child_process_1.spawn)(this.filename, ["-functions"], { cwd: this.buildDirPath });
+                const child = (0, child_process_1.spawn)(this.filename, ["-functions"], {
+                    cwd: this.buildDirPath,
+                });
                 child.stdout.on("data", (chunk) => {
                     output += chunk.toString();
                 });
@@ -112,8 +114,8 @@ class QtTest {
                 child.on("exit", (code) => {
                     if (code === 0) {
                         slotNames = slotNames.concat(output.split("\n"));
-                        slotNames = slotNames.map(entry => entry.trim().replace("()", ""));
-                        slotNames = slotNames.filter(entry => entry.length > 0);
+                        slotNames = slotNames.map((entry) => entry.trim().replace("()", ""));
+                        slotNames = slotNames.filter((entry) => entry.length > 0);
                         if (slotNames.length > 0) {
                             this.slots = [];
                             for (var slotName of slotNames) {
@@ -124,7 +126,12 @@ class QtTest {
                         resolve(slotNames);
                     }
                     else {
-                        reject(new Error("qttest: Failed to run -functions, stdout=" + output + "; stderr=" + err + "; code=" + code));
+                        reject(new Error("qttest: Failed to run -functions, stdout=" +
+                            output +
+                            "; stderr=" +
+                            err +
+                            "; code=" +
+                            code));
                     }
                 });
             });
@@ -150,7 +157,8 @@ class QtTest {
             let result = false;
             child.stdout.on("data", (chunk) => {
                 if (!result) {
-                    if (chunk.toString().includes("libQt5Test.so") || chunk.toString().includes("libQt6Test.so")) {
+                    if (chunk.toString().includes("libQt5Test.so") ||
+                        chunk.toString().includes("libQt6Test.so")) {
                         result = true;
                     }
                 }
@@ -219,7 +227,12 @@ class QtTest {
             args = args.concat("-o").concat("-,txt");
             return yield new Promise((resolve, reject) => {
                 let cwdDir = cwd.length > 0 ? cwd : this.buildDirPath;
-                logMessage("Running " + this.filename + " " + args.join(" ") + " with cwd=" + cwdDir);
+                logMessage("Running " +
+                    this.filename +
+                    " " +
+                    args.join(" ") +
+                    " with cwd=" +
+                    cwdDir);
                 const child = (0, child_process_1.spawn)(this.filename, args, { cwd: cwdDir });
                 if (this.outputFunc) {
                     // Callers wants the process output:
@@ -239,9 +252,11 @@ class QtTest {
                     if (!slot) {
                         this.lastExitCode = code;
                     }
-                    /// When running a QtTest executable, let's check which sub-tests failed
-                    /// (So VSCode can show some error icon for each fail)
-                    yield this.updateSubTestStates(cwdDir, slot);
+                    if (this.slots && this.slots.length > 0) {
+                        /// When running a QtTest executable, let's check which sub-tests failed
+                        /// (So VSCode can show some error icon for each fail)
+                        yield this.updateSubTestStates(cwdDir, slot);
+                    }
                     if (code === 0) {
                         resolve(true);
                     }
@@ -255,11 +270,11 @@ class QtTest {
     /// Using .tap so we don't have to use a separate XML library
     /// .tap is plain text and a single regexp can catch the failing tests and line number
     tapOutputFileName(slot) {
-        let slotName = slot ? ("_" + slot.name) : "";
+        let slotName = slot ? "_" + slot.name : "";
         return this.label + slotName + ".tap";
     }
     txtOutputFileName(slot) {
-        let slotName = slot ? ("_" + slot.name) : "";
+        let slotName = slot ? "_" + slot.name : "";
         return this.label + slotName + ".txt";
     }
     command() {
@@ -286,7 +301,7 @@ class QtTest {
                         // at: MyTest::testF() (/some/path/qttest-utils/test/qt_test/test2.cpp:13)
                         const pattern = /at:\s+(.+?)::(.+?)\(\)\s+\((.+?):(\d+)\)/gm;
                         const matches = Array.from(data.matchAll(pattern));
-                        const failedResults = matches.map(match => ({
+                        const failedResults = matches.map((match) => ({
                             name: match[2],
                             filePath: match[3],
                             lineNumber: parseInt(match[4]),
@@ -332,7 +347,11 @@ class QtTestSlot {
         });
     }
     command() {
-        return { label: this.name, executablePath: this.absoluteFilePath, args: [this.name] };
+        return {
+            label: this.name,
+            executablePath: this.absoluteFilePath,
+            args: [this.name],
+        };
     }
 }
 exports.QtTestSlot = QtTestSlot;

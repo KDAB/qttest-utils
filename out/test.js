@@ -24,6 +24,7 @@ function runTests(buildDirPath) {
             "test/qt_test/build-dev/test1",
             "test/qt_test/build-dev/test2",
             "test/qt_test/build-dev/test3",
+            "test/qt_test/build-dev/non_qttest",
         ];
         if (qt.qtTestExecutables.length != expected_executables.length) {
             console.error("Expected 3 executables, got " + qt.qtTestExecutables.length);
@@ -173,5 +174,24 @@ function runCodeModelTests(codeModelFile) {
         }
     });
 }
+function runNonQtTest(buildDirPath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let qt = new qttest_1.QtTests();
+        yield qt.discoverViaCMake(buildDirPath);
+        var nonQtExecutable = undefined;
+        for (let executable of qt.qtTestExecutables) {
+            if (executable.filenameWithoutExtension().endsWith("non_qttest")) {
+                nonQtExecutable = executable;
+                break;
+            }
+        }
+        if (nonQtExecutable === undefined) {
+            console.error("Expected to find non-Qt test executable");
+            process.exit(1);
+        }
+        yield nonQtExecutable.runTest();
+    });
+}
 runTests("test/qt_test/build-dev/");
+runNonQtTest("test/qt_test/build-dev/");
 runCodeModelTests("test/test_cmake_codemodel.json");

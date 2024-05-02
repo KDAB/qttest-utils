@@ -16,6 +16,7 @@ async function runTests(buildDirPath: string) {
     "test/qt_test/build-dev/test1",
     "test/qt_test/build-dev/test2",
     "test/qt_test/build-dev/test3",
+    "test/qt_test/build-dev/non_qttest",
   ];
 
   if (qt.qtTestExecutables.length != expected_executables.length) {
@@ -220,5 +221,26 @@ async function runCodeModelTests(codeModelFile: string) {
   }
 }
 
+async function runNonQtTest(buildDirPath: string) {
+  let qt = new QtTests();
+  await qt.discoverViaCMake(buildDirPath);
+
+  var nonQtExecutable = undefined;
+  for (let executable of qt.qtTestExecutables) {
+    if (executable.filenameWithoutExtension().endsWith("non_qttest")) {
+      nonQtExecutable = executable;
+      break;
+    }
+  }
+
+  if (nonQtExecutable === undefined) {
+    console.error("Expected to find non-Qt test executable");
+    process.exit(1);
+  }
+
+  await nonQtExecutable.runTest();
+}
+
 runTests("test/qt_test/build-dev/");
+runNonQtTest("test/qt_test/build-dev/");
 runCodeModelTests("test/test_cmake_codemodel.json");
