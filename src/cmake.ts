@@ -70,6 +70,22 @@ export class CMakeTests {
       return test;
     });
 
+    // filter invalid tests:
+    tests = tests.filter((test) => {
+      // pretty print test
+      if (!test.command || test.command.length == 0) return false;
+
+      let testExecutablePath = test.executablePath();
+      let baseName = path.basename(testExecutablePath).toLowerCase();
+      if (baseName.endsWith(".exe"))
+        baseName = baseName.substring(0, baseName.length - 4);
+
+      // People doing complicated things in add_test()
+      if (baseName == "ctest" || baseName === "cmake") return false;
+
+      return true;
+    });
+
     return tests;
   }
 

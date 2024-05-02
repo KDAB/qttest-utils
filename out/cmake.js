@@ -42,7 +42,9 @@ class CMakeTests {
             }
             return new Promise((resolve, reject) => {
                 (0, qttest_1.logMessage)("Running ctest --show-only=json-v1 with cwd=" + this.buildDirPath);
-                const child = (0, child_process_1.spawn)("ctest", ["--show-only=json-v1"], { "cwd": this.buildDirPath });
+                const child = (0, child_process_1.spawn)("ctest", ["--show-only=json-v1"], {
+                    cwd: this.buildDirPath,
+                });
                 let output = "";
                 child.stdout.on("data", (chunk) => {
                     output += chunk.toString();
@@ -69,6 +71,20 @@ class CMakeTests {
             test.command = testJSON.command;
             test.cwd = testJSON.cwd;
             return test;
+        });
+        // filter invalid tests:
+        tests = tests.filter((test) => {
+            // pretty print test
+            if (!test.command || test.command.length == 0)
+                return false;
+            let testExecutablePath = test.executablePath();
+            let baseName = path_1.default.basename(testExecutablePath).toLowerCase();
+            if (baseName.endsWith(".exe"))
+                baseName = baseName.substring(0, baseName.length - 4);
+            // People doing complicated things in add_test()
+            if (baseName == "ctest" || baseName === "cmake")
+                return false;
+            return true;
         });
         return tests;
     }
@@ -122,7 +138,7 @@ class CMakeTests {
             // files aren't equal!
             return false;
         }
-        const fs = require('fs');
+        const fs = require("fs");
         if (fs.existsSync(file2)) {
             // It's a real file, not bogus.
             return false;
@@ -178,7 +194,8 @@ class CMakeTests {
                 }
             }
         }
-        (0, qttest_1.logMessage)("cppFilesForExecutable: Could not find cpp files for executable " + executable);
+        (0, qttest_1.logMessage)("cppFilesForExecutable: Could not find cpp files for executable " +
+            executable);
         return [];
     }
 }

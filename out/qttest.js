@@ -255,7 +255,12 @@ class QtTest {
                     if (this.slots && this.slots.length > 0) {
                         /// When running a QtTest executable, let's check which sub-tests failed
                         /// (So VSCode can show some error icon for each fail)
-                        yield this.updateSubTestStates(cwdDir, slot);
+                        try {
+                            yield this.updateSubTestStates(cwdDir, slot);
+                        }
+                        catch (e) {
+                            logMessage("Failed to update sub-test states: " + e);
+                        }
                     }
                     if (code === 0) {
                         resolve(true);
