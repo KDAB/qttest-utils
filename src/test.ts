@@ -30,6 +30,19 @@ async function runTests(buildDirPath: string) {
   /// Use the help way instead
   await qt.removeByRunningHelp();
 
+  /// Remove the non-qttest executable from qt.qtTestExecutables
+  qt.qtTestExecutables = qt.qtTestExecutables.filter(
+    (e) => !e.filenameWithoutExtension().endsWith("non_qttest"),
+  );
+
+  if (qt.qtTestExecutables.length != 3) {
+    console.error(
+      "Expected 3 executables, at this point got " +
+        qt.qtTestExecutables.length,
+    );
+    process.exit(1);
+  }
+
   // 1. Test that the executable test names are correct:
   var i = 0;
   for (var executable of qt.qtTestExecutables) {
