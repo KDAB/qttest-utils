@@ -31,6 +31,9 @@ function runTests(buildDirPath) {
             process.exit(1);
         }
         yield qt.removeNonLinking();
+        /// On macOS and Windows we don't have ldd or equivalent, so we can't check if the test links to QtTest
+        /// Use the help way instead
+        yield qt.removeByRunningHelp();
         // 1. Test that the executable test names are correct:
         var i = 0;
         for (var executable of qt.qtTestExecutables) {

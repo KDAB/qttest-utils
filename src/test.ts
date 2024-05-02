@@ -26,6 +26,10 @@ async function runTests(buildDirPath: string) {
 
   await qt.removeNonLinking();
 
+  /// On macOS and Windows we don't have ldd or equivalent, so we can't check if the test links to QtTest
+  /// Use the help way instead
+  await qt.removeByRunningHelp();
+
   // 1. Test that the executable test names are correct:
   var i = 0;
   for (var executable of qt.qtTestExecutables) {
