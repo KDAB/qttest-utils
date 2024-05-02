@@ -2,11 +2,32 @@
 
 
 
+## [2.2.1] - 2024-05-02
+
+### 🐛 Bug Fixes
+
+- Fix running non-Qt tests
+- Harden code against exception when reading .tap file
+
+### 🧪 Testing
+
+- Try fixing tests on macOS/Windows
+- Try harder to fix macOS/Windows tests
+
+### ⚙️ Miscellaneous Tasks
+
+- Ran code format on tests
+- Run codeformat on qttest.ts
+
 ## [2.2.0] - 2024-04-25
 
 ### 🚀 Features
 
 - Allow to workaround microsoft/vscode-cmake-tools-api/issues/7
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version
 
 ## [2.1.1] - 2024-04-25
 
