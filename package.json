@@ -11,11 +11,7 @@
   },
   "main": "out/index.js",
   "typings": "./out/index.d.ts",
-  "keywords": [
-    "KDAB",
-    "QtTest",
-    "QTest"
-  ],
+  "keywords": ["KDAB", "QtTest", "QTest"],
   "author": "sergio.martins@kdab.com",
   "license": "MIT",
   "devDependencies": {
