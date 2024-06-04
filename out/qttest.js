@@ -43,6 +43,7 @@ const child_process_1 = require("child_process");
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const cmake_1 = require("./cmake");
+const tap_parser_1 = require("tap-parser");
 var gLogFunction;
 function logMessage(message) {
     if (gLogFunction) {
@@ -211,8 +212,8 @@ class QtTest {
         return undefined;
     }
     /// Runs this test
-    runTest(slot, cwd = "") {
-        return __awaiter(this, void 0, void 0, function* () {
+    runTest(slot_1) {
+        return __awaiter(this, arguments, void 0, function* (slot, cwd = "") {
             let args = [];
             if (slot) {
                 // Runs a single Qt test instead
@@ -302,15 +303,32 @@ class QtTest {
                         reject(error);
                     }
                     else {
-                        // A fail line is something like:
-                        // at: MyTest::testF() (/some/path/qttest-utils/test/qt_test/test2.cpp:13)
-                        const pattern = /at:\s+(.+?)::(.+?)\(\)\s+\((.+?):(\d+)\)/gm;
-                        const matches = Array.from(data.matchAll(pattern));
-                        const failedResults = matches.map((match) => ({
-                            name: match[2],
-                            filePath: match[3],
-                            lineNumber: parseInt(match[4]),
-                        }));
+                        let failedResults = [];
+                        try {
+                            const tap_events = tap_parser_1.Parser.parse(data);
+                            for (let event of tap_events) {
+                                try {
+                                    if (event.length < 2)
+                                        continue;
+                                    if (event.at(0) != "assert")
+                                        continue;
+                                    var obj = event.at(1);
+                                    if (obj["ok"] === false) {
+                                        // We found a failure
+                                        var filename = obj["diag"]["file"];
+                                        var lineNumber = obj["diag"]["line"];
+                                        var name = obj["name"].replace(/\(.*\)/, "");
+                                        failedResults.push({
+                                            name: name,
+                                            filePath: filename,
+                                            lineNumber: lineNumber,
+                                        });
+                                    }
+                                }
+                                catch (e) { }
+                            }
+                        }
+                        catch (e) { }
                         resolve(failedResults);
                     }
                 });

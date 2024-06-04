@@ -6,6 +6,7 @@ import { spawn } from "child_process";
 import path from "path";
 import * as fs from "fs";
 import { CMakeTests } from "./cmake";
+import { Parser } from "tap-parser";
 
 type LoggerFunction = (arg: string) => void;
 var gLogFunction: LoggerFunction | undefined;
@@ -304,16 +305,32 @@ export class QtTest {
           logMessage("ERROR: Failed to read log file");
           reject(error);
         } else {
-          // A fail line is something like:
-          // at: MyTest::testF() (/some/path/qttest-utils/test/qt_test/test2.cpp:13)
+          let failedResults: TestFailure[] = [];
 
-          const pattern = /at:\s+(.+?)::(.+?)\(\)\s+\((.+?):(\d+)\)/gm;
-          const matches = Array.from(data.matchAll(pattern));
-          const failedResults = matches.map((match) => ({
-            name: match[2],
-            filePath: match[3],
-            lineNumber: parseInt(match[4]),
-          }));
+          try {
+            const tap_events = Parser.parse(data);
+            for (let event of tap_events) {
+              try {
+                if (event.length < 2) continue;
+                if (event.at(0) != "assert") continue;
+
+                var obj = event.at(1);
+
+                if (obj["ok"] === false) {
+                  // We found a failure
+                  var filename = obj["diag"]["file"];
+                  var lineNumber = obj["diag"]["line"];
+                  var name = obj["name"].replace(/\(.*\)/, "");
+
+                  failedResults.push({
+                    name: name,
+                    filePath: filename,
+                    lineNumber: lineNumber,
+                  });
+                }
+              } catch (e) {}
+            }
+          } catch (e) {}
 
           resolve(failedResults);
         }

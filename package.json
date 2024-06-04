@@ -18,5 +18,8 @@
     "@types/node": "^18.15.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "tap-parser": "^16.0.1"
   }
 }
