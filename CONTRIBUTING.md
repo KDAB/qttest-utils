@@ -2,7 +2,7 @@
 
 ## Prepare your development environment
 
-Just follow `.devcontainer/Dockerfile` to see what's needed.<br?>
+Just follow `.devcontainer/Dockerfile` to see what's needed.<br>
 Basically it's just `nodejs` >= v18 `tsc` and `npm`. <br>
 Qt5, cmake and ninja if you want to run the tests.
 
@@ -10,8 +10,7 @@ Qt5, cmake and ninja if you want to run the tests.
 ## Running tests
 
 ```bash
-tsc
-node out/test.js
+sh test.sh
 ```
 
 Or simply let GitHub actions run the tests for you.<br>
