@@ -14,6 +14,10 @@ private Q_SLOTS:
   }
   void testB() {}
   void testC() { qDebug() << "MyTest::testC()"; }
+  void testXFAIL() {
+    QEXPECT_FAIL("", "To be fixed", Continue);
+    QVERIFY(false);
+  }
 };
 
 QTEST_MAIN(MyTest);

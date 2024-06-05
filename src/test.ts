@@ -66,7 +66,7 @@ async function runTests(buildDirPath: string) {
     [key: string]: string[];
   }
   let expected_slots: ExpectedSlots = {
-    "test/qt_test/build-dev/test1": ["testA", "testB", "testC"],
+    "test/qt_test/build-dev/test1": ["testA", "testB", "testC", "testXFAIL"],
     "test/qt_test/build-dev/test2": ["testD", "testE", "testF"],
     "test/qt_test/build-dev/test3": ["testAbortsEverythig", "testH", "testI"],
   };

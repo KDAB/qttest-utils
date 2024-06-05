@@ -57,7 +57,7 @@ function runTests(buildDirPath) {
         // 2. Test that the discovered slots are correct:
         yield qt.dumpTestSlots();
         let expected_slots = {
-            "test/qt_test/build-dev/test1": ["testA", "testB", "testC"],
+            "test/qt_test/build-dev/test1": ["testA", "testB", "testC", "testXFAIL"],
             "test/qt_test/build-dev/test2": ["testD", "testE", "testF"],
             "test/qt_test/build-dev/test3": ["testAbortsEverythig", "testH", "testI"],
         };
