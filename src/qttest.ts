@@ -317,6 +317,12 @@ export class QtTest {
                 var obj = event.at(1);
 
                 if (obj["ok"] === false) {
+                  if (obj["todo"] !== false) {
+                    // This is a QEXPECT_FAIL test, all good.
+                    // QtTest outputs it as "todo"
+                    continue;
+                  }
+
                   // We found a failure
                   var filename = obj["diag"]["file"];
                   var lineNumber = obj["diag"]["line"];

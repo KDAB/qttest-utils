@@ -122,6 +122,18 @@ function runTests(buildDirPath) {
             console.error("Expected 0 executables, got " + executables.length);
             process.exit(1);
         }
+        // 6. Run a slot that has XFAIL
+        slot = qt.qtTestExecutables[0].slots[3];
+        // assert it's called testXFAIL
+        if (slot.name != "testXFAIL") {
+            console.error("Expected slot name to be testXFAIL");
+            process.exit(1);
+        }
+        yield slot.runTest();
+        if (slot.lastTestFailure) {
+            console.error("Expected test to pass: " + slot.name);
+            process.exit(1);
+        }
     });
 }
 function runCodeModelTests(codeModelFile) {
