@@ -11,6 +11,10 @@ private Q_SLOTS:
   void testD() {}
   void testE() {}
   void testF() { QFAIL("failed"); }
+  void testXPASS() {
+    QEXPECT_FAIL("", "To be fixed", Continue);
+    QVERIFY(true);
+  }
 };
 
 QTEST_MAIN(MyTest);

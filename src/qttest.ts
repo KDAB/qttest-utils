@@ -315,18 +315,32 @@ export class QtTest {
                 if (event.at(0) != "assert") continue;
 
                 var obj = event.at(1);
+                let pass = obj["ok"] === true;
 
-                if (obj["ok"] === false) {
-                  if (obj["todo"] !== false) {
-                    // This is a QEXPECT_FAIL test, all good.
-                    // QtTest outputs it as "todo"
-                    continue;
-                  }
+                let xfail = !pass && obj["todo"] !== false;
+                if (xfail) {
+                  // This is a QEXPECT_FAIL test, all good.
+                  // QtTest outputs it as "todo"
+                  continue;
+                }
 
+                // There's an QEXPECT_FAIL but test passed, not good.
+                let xpass =
+                  pass && obj["todo"].includes("returned TRUE unexpectedly");
+
+                if (!pass || xpass) {
                   // We found a failure
-                  var filename = obj["diag"]["file"];
-                  var lineNumber = obj["diag"]["line"];
+
                   var name = obj["name"].replace(/\(.*\)/, "");
+                  var filename = "";
+                  var lineNumber = -1;
+
+                  if (obj["diag"]) {
+                    filename = obj["diag"]["file"];
+                    lineNumber = obj["diag"]["line"];
+                  } else {
+                    // A XPASS for example misses file:line info. Nothing we can do, it's a Qt bug arguably.
+                  }
 
                   failedResults.push({
                     name: name,
