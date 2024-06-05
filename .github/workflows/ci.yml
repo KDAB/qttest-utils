@@ -23,6 +23,8 @@ jobs:
             preset: dev
           - version: 6.5.0
             preset: dev6
+          - version: 6.7.1
+            preset: dev6
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 18.x
