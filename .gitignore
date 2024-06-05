@@ -5,3 +5,4 @@
 *.tgz
 *.log
 /out/
+/src/*.js

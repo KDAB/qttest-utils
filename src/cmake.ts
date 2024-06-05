@@ -44,9 +44,17 @@ export class CMakeTests {
         output += chunk.toString();
       });
 
-      child.on("exit", (code) => {
+      child.on("close", (code) => {
         if (code === 0) {
-          resolve(this.ctestJsonToList(output));
+          if (output.length == 0) {
+            console.error(
+              "ctestJsonToList: Empty json output. Command was ctest --show-only=json-v1 , in " +
+                this.buildDirPath,
+            );
+            reject(new Error("Failed to get ctest JSON output"));
+          } else {
+            resolve(this.ctestJsonToList(output));
+          }
         } else {
           reject(new Error("Failed to run ctest"));
         }
