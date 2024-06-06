@@ -58,7 +58,13 @@ function runTests(buildDirPath) {
         yield qt.dumpTestSlots();
         let expected_slots = {
             "test/qt_test/build-dev/test1": ["testA", "testB", "testC", "testXFAIL"],
-            "test/qt_test/build-dev/test2": ["testD", "testE", "testF", "testXPASS"],
+            "test/qt_test/build-dev/test2": [
+                "testD",
+                "testE",
+                "testF",
+                "testXPASS",
+                "testMixXFAILWithFAIL",
+            ],
             "test/qt_test/build-dev/test3": ["testAbortsEverythig", "testH", "testI"],
         };
         for (var executable of qt.qtTestExecutables) {
@@ -137,6 +143,17 @@ function runTests(buildDirPath) {
         slot = qt.qtTestExecutables[1].slots[3];
         if (slot.name != "testXPASS") {
             console.error("Expected slot name to be testXPASS");
+            process.exit(1);
+        }
+        yield slot.runTest();
+        if (!slot.lastTestFailure) {
+            console.error("Expected test to fail: " + slot.name);
+            process.exit(1);
+        }
+        // 8. Run a slot that has both XFAIL and FAIL
+        slot = qt.qtTestExecutables[1].slots[4];
+        if (slot.name != "testMixXFAILWithFAIL") {
+            console.error("Expected slot name to be testMixXFAILWithFAIL");
             process.exit(1);
         }
         yield slot.runTest();

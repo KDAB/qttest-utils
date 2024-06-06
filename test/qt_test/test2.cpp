@@ -15,6 +15,11 @@ private Q_SLOTS:
     QEXPECT_FAIL("", "To be fixed", Continue);
     QVERIFY(true);
   }
+  void testMixXFAILWithFAIL() {
+    QEXPECT_FAIL("", "To be fixed", Continue);
+    QVERIFY(false);
+    QVERIFY(false);
+  }
 };
 
 QTEST_MAIN(MyTest);
