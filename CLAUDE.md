@@ -22,11 +22,9 @@ cmake --build test/qt_test/build-dev/
 node out/test.js
 ```
 
-Use preset `dev6` for Qt 6 builds.
-
 ### Run the example
 ```bash
-node out/example.js test/qt_test/build-dev6
+node out/example.js test/qt_test/build-dev
 ```
 
 ## Architecture
@@ -49,7 +47,7 @@ When a Qt test runs, the library invokes the executable with `-o <name>.tap,tap 
 
 ### Qt test fixtures (`test/qt_test/`)
 
-C++ test executables (`test1`, `test2`, `test3`, `non_qttest`) are pre-built into `test/qt_test/build-dev/`. The `non_qttest` executable exercises the non-QtTest filtering path. `CMakePresets.json` defines `dev` (Qt 5) and `dev6` (Qt 6) presets.
+C++ test executables (`test1`, `test2`, `test3`, `non_qttest`) are pre-built into `test/qt_test/build-dev/`. The `non_qttest` executable exercises the non-QtTest filtering path. `CMakePresets.json` defines the `dev` preset.
 
 ## Commit conventions
 
