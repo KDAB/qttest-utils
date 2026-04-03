@@ -2,15 +2,6 @@
 // SPDX-FileCopyrightText: 2023 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.com>
 // Author: Sergio Martins <sergio.martins@kdab.com>
 // SPDX-License-Identifier: MIT
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -25,6 +16,8 @@ const qttest_1 = require("./qttest");
  * Contains methods to discover Qt Tests via CMake
  */
 class CMakeTests {
+    // The build dir where we'll run
+    buildDirPath;
     constructor(buildDirPath) {
         this.buildDirPath = buildDirPath;
     }
@@ -33,39 +26,37 @@ class CMakeTests {
      *
      * @returns a promise with the list of tests
      */
-    tests() {
-        return __awaiter(this, void 0, void 0, function* () {
-            // TODO: Check if folder exists
-            if (this.buildDirPath.length == 0) {
-                console.error("Could not find out cmake build dir");
-                return undefined;
-            }
-            return new Promise((resolve, reject) => {
-                (0, qttest_1.logMessage)("Running ctest --show-only=json-v1 with cwd=" + this.buildDirPath);
-                const child = (0, child_process_1.spawn)("ctest", ["--show-only=json-v1"], {
-                    cwd: this.buildDirPath,
-                });
-                let output = "";
-                child.stdout.on("data", (chunk) => {
-                    output += chunk.toString();
-                });
-                child.on("close", (code) => {
-                    if (code === 0) {
-                        if (output.length == 0) {
-                            console.error("ctestJsonToList: Empty json output. Command was ctest --show-only=json-v1 , in " +
-                                this.buildDirPath);
-                            reject(new Error("Failed to get ctest JSON output"));
-                        }
-                        else {
-                            resolve(this.ctestJsonToList(output));
-                        }
+    async tests() {
+        // TODO: Check if folder exists
+        if (this.buildDirPath.length == 0) {
+            console.error("Could not find out cmake build dir");
+            return undefined;
+        }
+        return new Promise((resolve, reject) => {
+            (0, qttest_1.logMessage)("Running ctest --show-only=json-v1 with cwd=" + this.buildDirPath);
+            const child = (0, child_process_1.spawn)("ctest", ["--show-only=json-v1"], {
+                cwd: this.buildDirPath,
+            });
+            let output = "";
+            child.stdout.on("data", (chunk) => {
+                output += chunk.toString();
+            });
+            child.on("close", (code) => {
+                if (code === 0) {
+                    if (output.length == 0) {
+                        console.error("ctestJsonToList: Empty json output. Command was ctest --show-only=json-v1 , in " +
+                            this.buildDirPath);
+                        reject(new Error("Failed to get ctest JSON output"));
                     }
                     else {
-                        reject(new Error("Failed to run ctest"));
+                        resolve(this.ctestJsonToList(output));
                     }
-                });
-                return undefined;
+                }
+                else {
+                    reject(new Error("Failed to run ctest"));
+                }
             });
+            return undefined;
         });
     }
     ctestJsonToList(json) {
@@ -209,10 +200,8 @@ class CMakeTests {
 exports.CMakeTests = CMakeTests;
 /// Represents an inividual CTest test
 class CMakeTest {
-    constructor() {
-        this.command = [];
-        this.cwd = "";
-    }
+    command = [];
+    cwd = "";
     id() {
         return this.command.join(",");
     }
