@@ -11,14 +11,6 @@
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "USE_QT6": "ON"
       }
-    },
-    {
-      "name": "dev5",
-      "displayName": "dev5",
-      "inherits": "dev",
-      "cacheVariables": {
-        "USE_QT6": "OFF"
-      }
     }
   ]
 }
