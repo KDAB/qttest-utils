@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0](https://github.com/KDAB/qttest-utils/compare/v2.3.0...v2.4.0) (2026-04-03)
+
+
+### Features
+
+* bump TypeScript target to ES2022 and add engines field ([9d44860](https://github.com/KDAB/qttest-utils/commit/9d44860dc40b48373b3eaed22abf577e191a84c1))
+* rename cmake presets, make Qt6 the default ([#6](https://github.com/KDAB/qttest-utils/issues/6)) ([f60b6e7](https://github.com/KDAB/qttest-utils/commit/f60b6e72fdc1d6b3e86fb840c80aa8498c5bac94))
+
+
+### Bug Fixes
+
+* add rootDir to tsconfig to fix TS5011 with ES2022 target ([d921982](https://github.com/KDAB/qttest-utils/commit/d921982bbbda550f22aa764b6e138bd5fe761771))
+
 ## [2.3.0](https://github.com/KDAB/qttest-utils/compare/v2.2.2...v2.3.0) (2024-06-06)
 
 
