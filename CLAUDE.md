@@ -26,7 +26,7 @@ Use preset `dev6` for Qt 6 builds.
 
 ### Run the example
 ```bash
-node out/example.js test/qt_test/build-dev
+node out/example.js test/qt_test/build-dev6
 ```
 
 ## Architecture
