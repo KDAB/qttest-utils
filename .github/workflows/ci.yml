@@ -20,9 +20,9 @@ jobs:
           - macos-latest
         qt:
           - version: 6.5.0
-            preset: dev6
+            preset: dev
           - version: 6.7.1
-            preset: dev6
+            preset: dev
     steps:
       - uses: actions/checkout@v6
       - name: Use Node.js 18.x

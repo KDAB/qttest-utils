@@ -8,15 +8,16 @@
       "binaryDir": "${sourceDir}/build-${presetName}",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "USE_QT6": "ON"
       }
     },
     {
-      "name": "dev6",
-      "displayName": "dev6",
+      "name": "dev5",
+      "displayName": "dev5",
       "inherits": "dev",
       "cacheVariables": {
-        "USE_QT6": "ON"
+        "USE_QT6": "OFF"
       }
     }
   ]
