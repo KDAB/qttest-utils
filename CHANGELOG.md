@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/KDAB/qttest-utils/compare/v2.4.1...v2.4.2) (2026-04-04)
+
+
+### Bug Fixes
+
+* Testing release process ([01e5b2e](https://github.com/KDAB/qttest-utils/commit/01e5b2e608289f9dc86ff553459276e4fc83a801))
+
 ## [2.4.1](https://github.com/KDAB/qttest-utils/compare/v2.4.0...v2.4.1) (2026-04-04)
 
 
