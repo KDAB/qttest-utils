@@ -7,10 +7,17 @@
     "url": "https://github.com/KDAB/qttest-utils.git"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "main": "out/index.js",
   "typings": "./out/index.d.ts",
+  "files": [
+    "out/*.js",
+    "out/*.d.ts",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "KDAB",
     "QtTest",
