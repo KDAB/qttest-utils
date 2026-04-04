@@ -26,12 +26,12 @@
   "author": "sergio.martins@kdab.com",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.15.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.4.4"
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "tap-parser": "^16.0.1"
