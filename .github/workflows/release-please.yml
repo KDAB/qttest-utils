@@ -40,5 +40,5 @@ jobs:
       - run: npm run build
         if: ${{ steps.release.outputs.release_created == 'true' }}
 
-      - run: npm publish --provenance --access public
+      - run: npm publish --provenance --access public --verbose
         if: ${{ steps.release.outputs.release_created == 'true' }}
