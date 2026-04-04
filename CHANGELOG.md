@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.4](https://github.com/KDAB/qttest-utils/compare/v2.4.3...v2.4.4) (2026-04-04)
+
+
+### Bug Fixes
+
+* Add verbose flag to publish ([1db610e](https://github.com/KDAB/qttest-utils/commit/1db610e9a372c88435460140e6e31769649bfcd0))
+
 ## [2.4.3](https://github.com/KDAB/qttest-utils/compare/v2.4.2...v2.4.3) (2026-04-04)
 
 
