@@ -26,3 +26,232 @@
 
 * Fix JSON output from ctest not being received ([9cea2c3](https://github.com/KDAB/qttest-utils/commit/9cea2c3dd4b5798f7f6f0bf382e5eca1694f0eb2))
 * Use tap-parser instead of regexp to parse tap files ([3d9f1f5](https://github.com/KDAB/qttest-utils/commit/3d9f1f5abc77d2af1a57ba6a75b89c8a3ad424ed))
+
+# Changelog
+
+
+
+## [2.2.2] - 2024-05-02
+
+### 🐛 Bug Fixes
+
+- Filter out weird tests
+
+### ⚙️ Miscellaneous Tasks
+
+- Code format cmake.ts
+
+## [2.2.1] - 2024-05-02
+
+### 🐛 Bug Fixes
+
+- Fix running non-Qt tests
+- Harden code against exception when reading .tap file
+
+### 🧪 Testing
+
+- Try fixing tests on macOS/Windows
+- Try harder to fix macOS/Windows tests
+
+### ⚙️ Miscellaneous Tasks
+
+- Ran code format on tests
+- Run codeformat on qttest.ts
+- Bump version
+
+## [2.2.0] - 2024-04-25
+
+### 🚀 Features
+
+- Allow to workaround microsoft/vscode-cmake-tools-api/issues/7
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version
+
+## [2.1.1] - 2024-04-25
+
+### 🐛 Bug Fixes
+
+- Allow for backslashes in the cmake codemodel
+
+### ⚙️ Miscellaneous Tasks
+
+- Improve CONTRIBUTING.md
+- Bump version
+
+## [2.1.0] - 2024-04-25
+
+### 🚀 Features
+
+- Add targetNameForExecutable()
+
+### 🐛 Bug Fixes
+
+- Ignore non-executable targets
+
+### ⚙️ Miscellaneous Tasks
+
+- Coding style improvement
+- Update CONTRIBUTING.md file
+- Fix build on macOS
+- Improve CONTRIBUTING.md
+- Bump version
+
+## [2.0.0] - 2024-04-24
+
+### 🚀 Features
+
+- [**breaking**] Use a member to hold the output function
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version
+
+## [1.4.0] - 2024-04-24
+
+### 🚀 Features
+
+- Allow the caller to pass a output callback
+
+### 🐛 Bug Fixes
+
+- When running a qttest, output to stdout
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version
+
+## [1.3.0] - 2024-04-23
+
+### 🚀 Features
+
+- Add cppFilesForExecutable(executable, codemodel)
+
+### 🧪 Testing
+
+- Add an example cmake code model
+- Normalize paths
+- Simplify some code
+- Fix replacing slashes
+
+### ⚙️ Miscellaneous Tasks
+
+- Add more logging
+- Bump version
+
+## [1.2.0] - 2024-04-22
+
+### 🚀 Features
+
+- Added executablesContainingSlot(name) public method
+
+### 📚 Documentation
+
+- Minor CONTRIBUTIND.md improvement
+- Minor CONTRIBUTIND.md improvement
+
+### 🧪 Testing
+
+- Fix test on windows
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version
+
+## [1.1.2] - 2024-04-07
+
+### ⚙️ Miscellaneous Tasks
+
+- Add more logging
+- Bump version
+
+## [1.1.1] - 2024-04-07
+
+### 🐛 Bug Fixes
+
+- Verbose logging not appearing in vscode
+
+### ⚙️ Miscellaneous Tasks
+
+- Improve CONTRIBUTING.md
+- Bump version
+
+## [1.1.0] - 2024-04-07
+
+### 🚀 Features
+
+- Added QtTest.verbose property
+
+### 🧪 Testing
+
+- Add a QBENCHMARK
+- Fix tests on windows
+- Fix more cases of wrong slashes
+- Test linksToQtTestLib too
+
+### ⚙️ Miscellaneous Tasks
+
+- Minor readme comment
+- Update .npmignore
+- Fix typo in README
+- Fix badge urls in README
+- Mention the vscode extension in the README
+- Remove duplicate vscode workspace file
+- Add macOS and Windows to CI
+- Make npm install be verose
+- Trying fixing the path for tsc on macos
+- Update packages
+- Bump version
+
+## [1.0.0] - 2024-04-04
+
+### 🧪 Testing
+
+- Add a proper test and add it to cI
+
+### ⚙️ Miscellaneous Tasks
+
+- Add a git-cliff configuration file
+- Add pre-commit support
+- README improvements
+- Add installation instructions to README
+- Add a Dockerfile with nodejs 18
+- *(ci)* Make pre-commit run on master branch
+- Update version in package-lock.json
+- *(docker)* Install npm, Qt5 and typescript
+- *(ci)* Run tsc in ci
+- *(ci)* Fix typo in yml file
+- *(ci)* Bump to checkout v4
+- *(ci)* Bump to setup-node v4
+- *(ci)* Rename main ci job to 'build'
+- *(vscode)* Add a workspace file
+- Formatted some code automatically
+- Fix typo in comment
+- *(ci)* Install Qt and ninja
+- Bump to version 1.0.0
+- Regenerate out/
+- Add a CONTRIBUTING.md file
+- Update changelog
+- Add ci badges to readme
+
+## [0.4.9] - 2023-04-06
+
+### 🧪 Testing
+
+- Make test3 abort at the beginning
+
+## [0.4.7] - 2023-04-02
+
+### 🧪 Testing
+
+- Rename the test slots
+
+### README
+
+- Explain how to run the example
+
+### Minor
+
+- Ran formatting
+- Pass the entire slot
