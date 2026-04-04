@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3](https://github.com/KDAB/qttest-utils/compare/v2.4.2...v2.4.3) (2026-04-04)
+
+
+### Bug Fixes
+
+* normalize repository url for npm provenance ([4c74b4b](https://github.com/KDAB/qttest-utils/commit/4c74b4b47bb170840be6a1b3ae6e7d70ed333b97))
+
 ## [2.4.2](https://github.com/KDAB/qttest-utils/compare/v2.4.1...v2.4.2) (2026-04-04)
 
 
