@@ -3,7 +3,7 @@
 ## Prepare your development environment
 
 Install `nodejs` >= v20 `tsc` and `npm`. <br>
-Qtt, cmake and ninja if you want to run the tests.
+Qt, cmake and ninja if you want to run the tests.
 
 ## Running tests
 
