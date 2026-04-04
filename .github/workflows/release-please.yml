@@ -24,21 +24,3 @@ jobs:
           release-type: node
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
-
-      - uses: actions/checkout@v4
-        if: ${{ steps.release.outputs.release_created == 'true' }}
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-        if: ${{ steps.release.outputs.release_created == 'true' }}
-
-      - run: npm ci
-        if: ${{ steps.release.outputs.release_created == 'true' }}
-
-      - run: npm run build
-        if: ${{ steps.release.outputs.release_created == 'true' }}
-
-      - run: npm publish --provenance --access public --verbose
-        if: ${{ steps.release.outputs.release_created == 'true' }}
