@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.1](https://github.com/KDAB/qttest-utils/compare/v2.4.0...v2.4.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* Remove cliff and update to new release-please action ([7480c13](https://github.com/KDAB/qttest-utils/commit/7480c132962de8274a7ccfaf84b19a8a5f192bfa))
+* Remove unneeded cruft from package ([b33c153](https://github.com/KDAB/qttest-utils/commit/b33c1538da9177ea11c1fd546075e149e32a6738))
+
 ## [2.4.0](https://github.com/KDAB/qttest-utils/compare/v2.3.0...v2.4.0) (2026-04-03)
 
 
