@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.5.0](https://github.com/KDAB/qttest-utils/compare/v2.4.4...v2.5.0) (2026-04-04)
+
+
+### Features
+
+* move to node22 ([9918007](https://github.com/KDAB/qttest-utils/commit/9918007bb7765d0363452afdab06856d8505cf18))
+
+
+### Bug Fixes
+
+* Remove the npm publish stuff from CI ([84069f5](https://github.com/KDAB/qttest-utils/commit/84069f594073c1ea54fe58915aa1beb70353d7e0))
+
 ## [2.4.4](https://github.com/KDAB/qttest-utils/compare/v2.4.3...v2.4.4) (2026-04-04)
 
 
