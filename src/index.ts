@@ -6,8 +6,12 @@ import { CMakeTests, CMakeTest } from "./cmake";
 import { QtTests, QtTest, QtTestSlot } from "./qttest";
 
 const qttest = {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    QtTests, QtTest, QtTestSlot, CMakeTests, CMakeTest
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  QtTests,
+  QtTest,
+  QtTestSlot,
+  CMakeTests,
+  CMakeTest,
 };
 
 export default qttest;

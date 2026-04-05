@@ -38,6 +38,9 @@ jobs:
       - name: eslint
         run: node_modules/.bin/eslint src/
 
+      - name: prettier
+        run: node_modules/.bin/prettier --check src/
+
       - name: Install ninja (Windows / Linux)
         if: ${{ runner.os != 'macOS' }}
         uses: turtlesec-no/get-ninja@main

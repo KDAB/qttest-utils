@@ -20,7 +20,12 @@ async function runTests(buildDirPath: string) {
   ];
 
   if (qt.qtTestExecutables.length !== expectedExecutables.length) {
-    console.error("Expected " + expectedExecutables.length + " executables, got " + qt.qtTestExecutables.length);
+    console.error(
+      "Expected " +
+        expectedExecutables.length +
+        " executables, got " +
+        qt.qtTestExecutables.length,
+    );
     process.exit(1);
   }
 
