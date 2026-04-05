@@ -12,6 +12,22 @@ async function runTests(buildDirPath: string) {
   let qt = new QtTests();
   await qt.discoverViaCMake(buildDirPath);
 
+  // Verify that environment properties from CTest were discovered for test1
+  const test1Exe = qt.qtTestExecutables.find((e) =>
+    e.filenameWithoutExtension().endsWith("test1"),
+  );
+  if (!test1Exe) {
+    console.error("Expected to find test1 executable after discovery");
+    process.exit(1);
+  }
+  if (!test1Exe.environment || !test1Exe.environment.includes("MY_ENV=VALUE")) {
+    console.error(
+      "Expected test1 to have environment MY_ENV=VALUE, got: " +
+        JSON.stringify(test1Exe.environment),
+    );
+    process.exit(1);
+  }
+
   let expectedExecutables = [
     "test/qt_test/build-dev/test1",
     "test/qt_test/build-dev/test2",

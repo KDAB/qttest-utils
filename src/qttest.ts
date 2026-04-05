@@ -34,6 +34,9 @@ export class QtTest {
   /// The list of individual runnable test slots
   slots: QtTestSlot[] | null = null;
 
+  /// Environment variables coming from CTest (array of "VAR=VALUE")
+  environment: string[] = [];
+
   /// Set after running
   lastExitCode: number = 0;
 
@@ -77,6 +80,19 @@ export class QtTest {
     return result;
   }
 
+  private buildSpawnEnv(): NodeJS.ProcessEnv {
+    const env: NodeJS.ProcessEnv = Object.assign({}, process.env);
+    if (this.environment && Array.isArray(this.environment)) {
+      for (const kv of this.environment) {
+        const idx = kv.indexOf("=");
+        if (idx > -1) {
+          env[kv.substring(0, idx)] = kv.substring(idx + 1);
+        }
+      }
+    }
+    return env;
+  }
+
   /**
    * Calls "./yourqttest -functions" and stores the results in the slots property.
    */
@@ -93,6 +109,7 @@ export class QtTest {
 
       const child = spawn(this.filename, ["-functions"], {
         cwd: this.buildDirPath,
+        env: this.buildSpawnEnv(),
       });
 
       child.stdout.on("data", (chunk) => {
@@ -184,7 +201,9 @@ export class QtTest {
   /// Note that if this is not a QtTest it might not run help and instead execute the test itself
   public async isQtTestViaHelp(): Promise<boolean | undefined> {
     return await new Promise((resolve, reject) => {
-      const child = spawn(this.filename, ["-help"]);
+      const child = spawn(this.filename, ["-help"], {
+        env: this.buildSpawnEnv(),
+      });
       let output = "";
       let result = false;
       child.stdout.on("data", (chunk) => {
@@ -244,7 +263,10 @@ export class QtTest {
           " with cwd=" +
           cwdDir,
       );
-      const child = spawn(this.filename, args, { cwd: cwdDir });
+      const child = spawn(this.filename, args, {
+        cwd: cwdDir,
+        env: this.buildSpawnEnv(),
+      });
 
       if (this.outputFunc) {
         // Callers wants the process output:
@@ -448,6 +470,8 @@ export class QtTests {
     if (ctests) {
       for (let ctest of ctests) {
         let qtest = new QtTest(ctest.executablePath(), buildDirPath);
+        // Propagate environment from CTest metadata
+        qtest.environment = ctest.environment;
         this.qtTestExecutables.push(qtest);
       }
     } else {

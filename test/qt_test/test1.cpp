@@ -12,7 +12,7 @@ private Q_SLOTS:
   void testA() {
     QBENCHMARK { int a = 1; }
   }
-  void testB() {}
+  void testB() { QCOMPARE(qgetenv("MY_ENV"), QByteArray("VALUE")); }
   void testC() { qDebug() << "MyTest::testC()"; }
   void testXFAIL() {
     QEXPECT_FAIL("", "To be fixed", Continue);
