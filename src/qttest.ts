@@ -97,6 +97,14 @@ export class QtTest {
    * Calls "./yourqttest -functions" and stores the results in the slots property.
    */
   public async parseAvailableSlots(): Promise<void> {
+    if (await this.isGTest()) {
+      logMessage(
+        "qttest: Skipping -functions for GTest executable: " + this.filename,
+      );
+      this.slots = [];
+      return;
+    }
+
     let slotNames: string[] = [];
     let output = "";
     let err = "";
@@ -220,6 +228,38 @@ export class QtTest {
         } else {
           resolve(false);
         }
+      });
+    });
+  }
+
+  /// Returns whether this executable is a Google Test by running it with --help
+  /// and checking if the output contains the GTest banner
+  public async isGTest(): Promise<boolean> {
+    return await new Promise((resolve) => {
+      if (!fs.existsSync(this.filename)) {
+        resolve(false);
+        return;
+      }
+
+      const child = spawn(this.filename, ["--help"], {
+        env: this.buildSpawnEnv(),
+      });
+      let output = "";
+      let found = false;
+      child.stdout.on("data", (chunk) => {
+        if (!found) {
+          if (
+            chunk
+              .toString()
+              .includes("This program contains tests written using Google Test")
+          ) {
+            found = true;
+          }
+        }
+      });
+
+      child.on("exit", () => {
+        resolve(found);
       });
     });
   }
