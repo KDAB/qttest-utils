@@ -57,7 +57,7 @@ export class QtTest {
     let result = path.relative(process.cwd(), this.filename);
 
     // strip .exe, as we only use this for tests
-    if (result.endsWith(".exe")) result = result.slice(0, -4);
+    if (result.endsWith(".exe")) {result = result.slice(0, -4);}
 
     // normalize slashes
     result = result.replace(/\\/g, "/");
@@ -68,7 +68,7 @@ export class QtTest {
   /// returns filename without .exe extension
   public filenameWithoutExtension() {
     let result = this.filename;
-    if (result.endsWith(".exe")) result = result.slice(0, -4);
+    if (result.endsWith(".exe")) {result = result.slice(0, -4);}
 
     return result;
   }
@@ -144,7 +144,7 @@ export class QtTest {
     }
 
     return new Promise((resolve, reject) => {
-      if (this.verbose) logMessage("qttest: Running ldd on " + this.filename);
+      if (this.verbose) {logMessage("qttest: Running ldd on " + this.filename);}
 
       const child = spawn("ldd", [this.filename]);
       let output = "";
@@ -159,7 +159,7 @@ export class QtTest {
           }
         }
 
-        if (this.verbose) logMessage(chunk.toString());
+        if (this.verbose) {logMessage(chunk.toString());}
       });
 
       child.on("exit", (code) => {
@@ -198,10 +198,10 @@ export class QtTest {
   }
 
   public slotByName(name: string): QtTestSlot | undefined {
-    if (!this.slots) return undefined;
+    if (!this.slots) {return undefined;}
 
     for (let slot of this.slots) {
-      if (slot.name == name) return slot;
+      if (slot.name === name) {return slot;}
     }
 
     return undefined;
@@ -237,17 +237,17 @@ export class QtTest {
       if (this.outputFunc) {
         // Callers wants the process output:
         child.stdout.on("data", (chunk) => {
-          if (this.outputFunc) this.outputFunc(chunk.toString());
+          if (this.outputFunc) {this.outputFunc(chunk.toString());}
         });
 
         child.stderr.on("data", (chunk) => {
-          if (this.outputFunc) this.outputFunc(chunk.toString());
+          if (this.outputFunc) {this.outputFunc(chunk.toString());}
         });
       }
 
       child.on("exit", async (code) => {
         /// Can code even be null ?
-        if (code == undefined) code = -1;
+        if (code === undefined || code === null) {code = -1;}
 
         if (!slot) {
           this.lastExitCode = code;
@@ -308,11 +308,11 @@ export class QtTest {
           let failedResults: TestFailure[] = [];
 
           try {
-            const tap_events = Parser.parse(data);
-            for (let event of tap_events) {
+            const tapEvents = Parser.parse(data);
+            for (let event of tapEvents) {
               try {
-                if (event.length < 2) continue;
-                if (event.at(0) != "assert") continue;
+                if (event.length < 2) {continue;}
+                if (event.at(0) !== "assert") {continue;}
 
                 var obj = event.at(1);
                 let pass = obj["ok"] === true;
@@ -358,7 +358,7 @@ export class QtTest {
     });
 
     for (let failure of failures) {
-      if (slot && slot.name != failure.name) {
+      if (slot && slot.name !== failure.name) {
         // We executed a single slot, ignore anything else
         continue;
       }
@@ -485,7 +485,7 @@ export class QtTests {
 
   public async dumpTestSlots() {
     for (var ex of this.qtTestExecutables) {
-      if (!ex.slots) await ex.parseAvailableSlots();
+      if (!ex.slots) {await ex.parseAvailableSlots();}
 
       console.log(ex.filename);
       if (ex.slots) {

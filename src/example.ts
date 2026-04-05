@@ -8,8 +8,8 @@ import fs from 'fs';
 import { exec } from "child_process";
 
 async function example() {
-    const args = process.argv.slice(2)
-    if (args.length != 1) {
+    const args = process.argv.slice(2);
+    if (args.length !== 1) {
         console.error("ERROR: Expected a single argument with the build-dir with cmake tests!");
         process.exit(2);
     }
@@ -46,14 +46,14 @@ async function example() {
     for (var executable of qt.qtTestExecutables) {
         await executable.runTest();
         if (executable.lastExitCode === 0)
-            console.log("    PASS: " + executable.filename);
+            {console.log("    PASS: " + executable.filename);}
         else
-            console.log("    FAIL: " + executable.filename + "; code=" + executable.lastExitCode);
+            {console.log("    FAIL: " + executable.filename + "; code=" + executable.lastExitCode);}
         for (let slot of executable.slots!) {
             if (slot.lastTestFailure) {
                 console.log("        failed slot=" + slot.name + "; path=" + slot.lastTestFailure.filePath + "; line=" + slot.lastTestFailure.lineNumber);
             } else {
-                console.log("        pass: " + slot.name)
+                console.log("        pass: " + slot.name);
             }
         }
     }
@@ -64,16 +64,16 @@ async function example() {
     let slot = qt.qtTestExecutables[1].slots![0];
     await slot.runTest();
     if (slot.lastTestFailure)
-        console.log("    FAIL:" + JSON.stringify(slot.lastTestFailure));
+        {console.log("    FAIL:" + JSON.stringify(slot.lastTestFailure));}
     else
-        console.log("    PASS:");
+        {console.log("    PASS:");}
 
     let slot2 = qt.qtTestExecutables[1].slots![2];
     await slot2.runTest();
     if (slot2.lastTestFailure)
-        console.log("    FAIL:" + JSON.stringify(slot2.lastTestFailure));
+        {console.log("    FAIL:" + JSON.stringify(slot2.lastTestFailure));}
     else
-        console.log("    PASS");
+        {console.log("    PASS");}
 
 }
 

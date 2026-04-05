@@ -12,15 +12,15 @@ async function runTests(buildDirPath: string) {
   let qt = new QtTests();
   await qt.discoverViaCMake(buildDirPath);
 
-  let expected_executables = [
+  let expectedExecutables = [
     "test/qt_test/build-dev/test1",
     "test/qt_test/build-dev/test2",
     "test/qt_test/build-dev/test3",
     "test/qt_test/build-dev/non_qttest",
   ];
 
-  if (qt.qtTestExecutables.length != expected_executables.length) {
-    console.error("Expected 3 executables, got " + qt.qtTestExecutables.length);
+  if (qt.qtTestExecutables.length !== expectedExecutables.length) {
+    console.error("Expected " + expectedExecutables.length + " executables, got " + qt.qtTestExecutables.length);
     process.exit(1);
   }
 
@@ -35,7 +35,7 @@ async function runTests(buildDirPath: string) {
     (e) => !e.filenameWithoutExtension().endsWith("non_qttest"),
   );
 
-  if (qt.qtTestExecutables.length != 3) {
+  if (qt.qtTestExecutables.length !== 3) {
     console.error(
       "Expected 3 executables, at this point got " +
         qt.qtTestExecutables.length,
@@ -46,8 +46,8 @@ async function runTests(buildDirPath: string) {
   // 1. Test that the executable test names are correct:
   var i = 0;
   for (var executable of qt.qtTestExecutables) {
-    let expected = expected_executables[i];
-    if (executable.relativeFilename() != expected) {
+    let expected = expectedExecutables[i];
+    if (executable.relativeFilename() !== expected) {
       console.error(
         "Expected executable " +
           expected +
@@ -65,8 +65,10 @@ async function runTests(buildDirPath: string) {
   interface ExpectedSlots {
     [key: string]: string[];
   }
-  let expected_slots: ExpectedSlots = {
+  let expectedSlots: ExpectedSlots = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     "test/qt_test/build-dev/test1": ["testA", "testB", "testC", "testXFAIL"],
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     "test/qt_test/build-dev/test2": [
       "testD",
       "testE",
@@ -74,6 +76,7 @@ async function runTests(buildDirPath: string) {
       "testXPASS",
       "testMixXFAILWithFAIL",
     ],
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     "test/qt_test/build-dev/test3": ["testAbortsEverythig", "testH", "testI"],
   };
 
@@ -81,9 +84,9 @@ async function runTests(buildDirPath: string) {
     var i = 0;
 
     for (let slot of executable.slots!) {
-      let expected_slot = expected_slots[executable.relativeFilename()][i];
-      if (slot.name != expected_slot) {
-        console.error("Expected slot " + expected_slot + ", got " + slot.name);
+      let expectedSlot = expectedSlots[executable.relativeFilename()][i];
+      if (slot.name !== expectedSlot) {
+        console.error("Expected slot " + expectedSlot + ", got " + slot.name);
         process.exit(1);
       }
       i++;
@@ -91,15 +94,15 @@ async function runTests(buildDirPath: string) {
   }
 
   // 3. Run the tests:
-  let expected_success = [true, false, false];
+  let expectedSuccess = [true, false, false];
   var i = 0;
   for (var executable of qt.qtTestExecutables) {
     await executable.runTest();
     let wasSuccess = executable.lastExitCode === 0;
-    if (wasSuccess && !expected_success[i]) {
+    if (wasSuccess && !expectedSuccess[i]) {
       console.error("Expected test to fail: " + executable.filename);
       process.exit(1);
-    } else if (!wasSuccess && expected_success[i]) {
+    } else if (!wasSuccess && expectedSuccess[i]) {
       console.error("Expected test to pass: " + executable.filename);
       process.exit(1);
     }
@@ -133,7 +136,7 @@ async function runTests(buildDirPath: string) {
 
   // 5. Test executablesContainingSlot
   let executables = qt.executablesContainingSlot("testB");
-  if (executables.length != 1) {
+  if (executables.length !== 1) {
     console.error("Expected 1 executable, got " + executables.length);
     process.exit(1);
   }
@@ -144,7 +147,7 @@ async function runTests(buildDirPath: string) {
   }
 
   executables = qt.executablesContainingSlot("non_existing");
-  if (executables.length != 0) {
+  if (executables.length !== 0) {
     console.error("Expected 0 executables, got " + executables.length);
     process.exit(1);
   }
@@ -152,7 +155,7 @@ async function runTests(buildDirPath: string) {
   // 6. Run a slot that has XFAIL
   slot = qt.qtTestExecutables[0].slots![3];
 
-  if (slot.name != "testXFAIL") {
+  if (slot.name !== "testXFAIL") {
     console.error("Expected slot name to be testXFAIL");
     process.exit(1);
   }
@@ -166,7 +169,7 @@ async function runTests(buildDirPath: string) {
   // 7. Run a slot that has XPASS
   slot = qt.qtTestExecutables[1].slots![3];
 
-  if (slot.name != "testXPASS") {
+  if (slot.name !== "testXPASS") {
     console.error("Expected slot name to be testXPASS");
     process.exit(1);
   }
@@ -180,7 +183,7 @@ async function runTests(buildDirPath: string) {
   // 8. Run a slot that has both XFAIL and FAIL
   slot = qt.qtTestExecutables[1].slots![4];
 
-  if (slot.name != "testMixXFAILWithFAIL") {
+  if (slot.name !== "testMixXFAILWithFAIL") {
     console.error("Expected slot name to be testMixXFAILWithFAIL");
     process.exit(1);
   }
@@ -202,7 +205,7 @@ async function runCodeModelTests(codeModelFile: string) {
     "/vscode-qttest/test/qt_test/build-dev/test1",
     codemodelJson,
   );
-  if (files.length != 1) {
+  if (files.length !== 1) {
     console.error("Expected 1 file, got " + files.length);
     process.exit(1);
   }
@@ -210,7 +213,7 @@ async function runCodeModelTests(codeModelFile: string) {
   let expected = "/vscode-qttest/test/qt_test/test1.cpp";
   let got = files[0].replace(/\\/g, "/");
 
-  if (got != expected) {
+  if (got !== expected) {
     console.error("Expected " + expected + ", got " + got);
     process.exit(1);
   }
@@ -219,7 +222,7 @@ async function runCodeModelTests(codeModelFile: string) {
     "/vscode-qttest/test/qt_test/build-dev/test1",
     codemodelJson,
   );
-  if (targetName != "test1") {
+  if (targetName !== "test1") {
     console.error("Expected test1, got " + targetName);
     process.exit(1);
   }
@@ -230,7 +233,7 @@ async function runCodeModelTests(codeModelFile: string) {
     "/vscode-qttest/test/qt_test/build-dev/test2",
     codemodelJson,
   );
-  if (files.length != 1) {
+  if (files.length !== 1) {
     console.error("Expected 1 file, got " + files.length);
     process.exit(1);
   }
@@ -239,7 +242,7 @@ async function runCodeModelTests(codeModelFile: string) {
     "/vscode-qttest/test/qt_test/build-dev/test2",
     codemodelJson,
   );
-  if (targetName != "test2") {
+  if (targetName !== "test2") {
     console.error("Expected test2, got " + targetName);
     process.exit(1);
   }
@@ -280,7 +283,7 @@ async function runCodeModelTests(codeModelFile: string) {
     codemodelJson,
     /*workaround=*/ true,
   );
-  if (targetName != "test3") {
+  if (targetName !== "test3") {
     console.error("Expected null, got " + targetName);
     process.exit(1);
   }

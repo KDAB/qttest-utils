@@ -27,7 +27,7 @@ export class CMakeTests {
    */
   public async tests(): Promise<CMakeTest[] | undefined> {
     // TODO: Check if folder exists
-    if (this.buildDirPath.length == 0) {
+    if (this.buildDirPath.length === 0) {
       console.error("Could not find out cmake build dir");
       return undefined;
     }
@@ -46,7 +46,7 @@ export class CMakeTests {
 
       child.on("close", (code) => {
         if (code === 0) {
-          if (output.length == 0) {
+          if (output.length === 0) {
             console.error(
               "ctestJsonToList: Empty json output. Command was ctest --show-only=json-v1 , in " +
                 this.buildDirPath,
@@ -81,15 +81,15 @@ export class CMakeTests {
     // filter invalid tests:
     tests = tests.filter((test) => {
       // pretty print test
-      if (!test.command || test.command.length == 0) return false;
+      if (!test.command || test.command.length === 0) {return false;}
 
       let testExecutablePath = test.executablePath();
       let baseName = path.basename(testExecutablePath).toLowerCase();
       if (baseName.endsWith(".exe"))
-        baseName = baseName.substring(0, baseName.length - 4);
+        {baseName = baseName.substring(0, baseName.length - 4);}
 
       // People doing complicated things in add_test()
-      if (baseName == "ctest" || baseName === "cmake") return false;
+      if (baseName === "ctest" || baseName === "cmake") {return false;}
 
       return true;
     });
@@ -105,15 +105,15 @@ export class CMakeTests {
     workaround: boolean = false,
   ): string | undefined {
     let projects = codemodel["projects"];
-    if (!projects) return undefined;
+    if (!projects) {return undefined;}
 
     for (let project of projects) {
       let targets = project["targets"];
-      if (!targets) continue;
+      if (!targets) {continue;}
 
       for (let target of targets) {
         let artifacts = target["artifacts"];
-        if (!artifacts) continue;
+        if (!artifacts) {continue;}
 
         for (let artifact of artifacts) {
           if (artifact.endsWith(".exe")) {
@@ -142,9 +142,9 @@ export class CMakeTests {
     file2: string,
     workaround: boolean = false,
   ): boolean {
-    if (file1.endsWith(".exe")) file1 = file1.substring(0, file1.length - 4);
+    if (file1.endsWith(".exe")) {file1 = file1.substring(0, file1.length - 4);}
 
-    if (file2.endsWith(".exe")) file2 = file2.substring(0, file2.length - 4);
+    if (file2.endsWith(".exe")) {file2 = file2.substring(0, file2.length - 4);}
 
     file1 = file1.replace(/\\/g, "/");
     file2 = file2.replace(/\\/g, "/");
@@ -154,7 +154,7 @@ export class CMakeTests {
       file2 = file2.toLowerCase();
     }
 
-    if (file1 == file2) return true;
+    if (file1 === file2) {return true;}
 
     if (!workaround) {
       // files aren't equal!
@@ -168,7 +168,7 @@ export class CMakeTests {
     }
 
     /// Compare only basename, since path is bogus
-    return path.basename(file1, ".exe") == path.basename(file2, ".exe");
+    return path.basename(file1, ".exe") === path.basename(file2, ".exe");
   }
 
   /// Returns the list of .cpp files for the specified executable
@@ -181,19 +181,19 @@ export class CMakeTests {
     workaround: boolean = false,
   ): string[] {
     let projects = codemodel["projects"];
-    if (!projects) return [];
+    if (!projects) {return [];}
 
     for (let project of projects) {
       let targets = project["targets"];
-      if (!targets) continue;
+      if (!targets) {continue;}
 
       for (let target of targets) {
         let sourceDir = target["sourceDirectory"];
         let artifacts = target["artifacts"];
-        if (!artifacts || !sourceDir) continue;
+        if (!artifacts || !sourceDir) {continue;}
 
         let targetType = target["type"];
-        if (targetType != "EXECUTABLE") continue;
+        if (targetType !== "EXECUTABLE") {continue;}
 
         for (let artifact of artifacts) {
           if (artifact.endsWith(".exe")) {
@@ -205,14 +205,14 @@ export class CMakeTests {
 
           if (this.filenamesAreEqual(executable, artifact, workaround)) {
             let fileGroups = target["fileGroups"];
-            if (!fileGroups) continue;
+            if (!fileGroups) {continue;}
 
             for (let fileGroup of fileGroups) {
-              if (fileGroup["language"] != "CXX" || fileGroup["isGenerated"])
-                continue;
+              if (fileGroup["language"] !== "CXX" || fileGroup["isGenerated"])
+                {continue;}
 
               let sources = fileGroup["sources"];
-              if (!sources) continue;
+              if (!sources) {continue;}
 
               let cppFiles: string[] = [];
               for (let source of sources) {
