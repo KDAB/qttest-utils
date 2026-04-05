@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.1](https://github.com/KDAB/qttest-utils/compare/v2.6.0...v2.6.1) (2026-04-05)
+
+
+### Bug Fixes
+
+* Improve gtest vs qttest detection ([75b2f57](https://github.com/KDAB/qttest-utils/commit/75b2f575962edc2e78737dc8615c5476bd62e8b2))
+* Improve gtest vs qttest detection ([cb26f31](https://github.com/KDAB/qttest-utils/commit/cb26f316de3e882802e2c81df9c517e6658f9821))
+
 ## [2.6.0](https://github.com/KDAB/qttest-utils/compare/v2.5.0...v2.6.0) (2026-04-05)
 
 
