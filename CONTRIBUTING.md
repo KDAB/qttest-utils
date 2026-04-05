@@ -18,4 +18,4 @@ See `ci.yml` for how we run the tests.
 
 Use GitHub's CI action to make a release.
 
-Then run `npm publish`
+Then run `publish.sh`
