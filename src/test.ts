@@ -33,6 +33,7 @@ async function runTests(buildDirPath: string) {
     "test/qt_test/build-dev/test2",
     "test/qt_test/build-dev/test3",
     "test/qt_test/build-dev/non_qttest",
+    "test/qt_test/build-dev/test_gtest",
   ];
 
   if (qt.qtTestExecutables.length !== expectedExecutables.length) {
@@ -45,15 +46,49 @@ async function runTests(buildDirPath: string) {
     process.exit(1);
   }
 
+  // Verify that test_gtest is detected as a GTest
+  const gtestExe = qt.qtTestExecutables.find((e) =>
+    e.filenameWithoutExtension().endsWith("test_gtest"),
+  );
+  if (!gtestExe) {
+    console.error("Expected to find test_gtest executable after discovery");
+    process.exit(1);
+  }
+  if (!(await gtestExe.isGTest())) {
+    console.error("Expected test_gtest to be detected as a GTest");
+    process.exit(1);
+  }
+  console.log("PASS: test_gtest detected as GTest");
+
+  // Verify that test_gtest has no slots after parseAvailableSlots (GTest is skipped)
+  await gtestExe.parseAvailableSlots();
+  if (!gtestExe.slots || gtestExe.slots.length !== 0) {
+    console.error(
+      "Expected test_gtest to have 0 slots, got " +
+        (gtestExe.slots?.length ?? "null"),
+    );
+    process.exit(1);
+  }
+  console.log("PASS: test_gtest has 0 slots (no children)");
+
+  // Verify that a QtTest is not detected as a GTest
+  if (await test1Exe.isGTest()) {
+    console.error("Expected test1 to NOT be detected as a GTest");
+    process.exit(1);
+  }
+  console.log("PASS: test1 (QtTest) not misdetected as GTest");
+
   await qt.removeNonLinking();
 
   /// On macOS and Windows we don't have ldd or equivalent, so we can't check if the test links to QtTest
   /// Use the help way instead
   await qt.removeByRunningHelp();
 
-  /// Remove the non-qttest executable from qt.qtTestExecutables
+  /// Remove the non-qttest and gtest executables from qt.qtTestExecutables
   qt.qtTestExecutables = qt.qtTestExecutables.filter(
-    (e) => !e.filenameWithoutExtension().endsWith("non_qttest"),
+    (e) =>
+      !e.filenameWithoutExtension().endsWith("non_qttest") &&
+      !e.filenameWithoutExtension().endsWith("test_gtest"),
   );
 
   if (qt.qtTestExecutables.length !== 3) {
