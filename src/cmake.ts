@@ -75,6 +75,62 @@ export class CMakeTests {
       let test = new CMakeTest();
       test.command = testJSON.command;
       test.cwd = testJSON.cwd;
+
+      // Extract environment information if present in ctest JSON.
+      // ctest may expose environment as `environment` (string or array),
+      // or embed it into `properties` either as an object or array.
+      try {
+        let envArr: string[] | undefined = undefined;
+
+        if (testJSON.environment) {
+          envArr = Array.isArray(testJSON.environment)
+            ? testJSON.environment
+            : [testJSON.environment];
+        }
+
+        if (!envArr && testJSON.properties) {
+          const props = testJSON.properties;
+
+          // properties might be an object with ENVIRONMENT key or an array of {name,value} entries
+          if (!Array.isArray(props) && props.ENVIRONMENT) {
+            const val = props.ENVIRONMENT;
+            if (typeof val === "string") {
+              envArr = [val];
+            } else if (Array.isArray(val)) {
+              envArr = val;
+            }
+          } else if (Array.isArray(props)) {
+            for (const p of props) {
+              if (!p || !p.name) {
+                continue;
+              }
+              if (p.name === "ENVIRONMENT" || p.name === "Environment") {
+                const v = p.value;
+                if (typeof v === "string") {
+                  envArr = [v];
+                } else if (Array.isArray(v)) {
+                  envArr = v;
+                }
+                break;
+              }
+            }
+          }
+        }
+
+        if (envArr) {
+          test.environment = envArr;
+        }
+      } catch (e) {
+        try {
+          logMessage(
+            "ctest: failed to parse environment for test: " +
+              JSON.stringify(testJSON) +
+              " error: " +
+              e,
+          );
+        } catch (_) {}
+      }
+
       return test;
     });
 
@@ -270,6 +326,7 @@ export class CMakeTests {
 export class CMakeTest {
   public command: string[] = [];
   public cwd: string = "";
+  public environment: string[] = [];
 
   public id(): string {
     return this.command.join(",");
