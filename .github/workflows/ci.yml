@@ -48,6 +48,20 @@ jobs:
         if: ${{ runner.os == 'macOS' }}
         run: brew install ninja
 
+      - name: Install GTest (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: sudo apt-get install -y libgtest-dev
+
+      - name: Install GTest (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: brew install googletest
+
+      - name: Install GTest (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: vcpkg install gtest:x64-windows
+        env:
+          VCPKG_ROOT: C:\vcpkg
+
       - name: Make sure MSVC is found when Ninja generator is in use
         if: ${{ runner.os == 'Windows' }}
         uses: ilammy/msvc-dev-cmd@v1
@@ -58,9 +72,16 @@ jobs:
           version: ${{ matrix.qt.version }}
           cache: true
 
-      - name: Build Qt test
+      - name: Build Qt test (non-Windows)
+        if: ${{ runner.os != 'Windows' }}
         run: |
           cmake --preset=${{ matrix.qt.preset }} -S test/qt_test/
+          cmake --build test/qt_test/build-dev/
+
+      - name: Build Qt test (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          cmake --preset=${{ matrix.qt.preset }} -S test/qt_test/ -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
           cmake --build test/qt_test/build-dev/
 
       - name: Run test
