@@ -36,6 +36,6 @@
     "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
-    "tap-parser": "^16.0.1"
+    "tap-parser": "^18.3.0"
   }
 }
