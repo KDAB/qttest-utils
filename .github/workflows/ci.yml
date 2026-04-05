@@ -21,8 +21,14 @@ jobs:
         qt:
           - version: 6.5.0
             preset: dev
-          - version: 6.7.1
+          - version: 6.11.*
             preset: dev
+        exclude:
+          # Broken aqtinstall
+          - os: windows-latest
+            qt:
+              version: 6.11.*
+              preset: dev
     steps:
       - uses: actions/checkout@v6
       - name: Use Node.js
