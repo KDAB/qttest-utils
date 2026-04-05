@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.6.0](https://github.com/KDAB/qttest-utils/compare/v2.5.0...v2.6.0) (2026-04-05)
+
+
+### Features
+
+* propagate CTest ENVIRONMENT to spawned test processes ([ea24d96](https://github.com/KDAB/qttest-utils/commit/ea24d96545c3ac9d68fc9cfea8ab6b372055b804))
+* propagate CTest ENVIRONMENT to spawned test processes ([6a68cc7](https://github.com/KDAB/qttest-utils/commit/6a68cc7db40f53f3631579477deb780d36b36685))
+
+
+### Bug Fixes
+
+* made eslint pass ([6740d61](https://github.com/KDAB/qttest-utils/commit/6740d618843a9a0a55fd73b7cc9e0c9f2412788e))
+
 ## [2.5.0](https://github.com/KDAB/qttest-utils/compare/v2.4.4...v2.5.0) (2026-04-04)
 
 
