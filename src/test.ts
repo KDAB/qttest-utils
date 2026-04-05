@@ -71,9 +71,7 @@ async function runTests(buildDirPath: string) {
     [key: string]: string[];
   }
   let expectedSlots: ExpectedSlots = {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "test/qt_test/build-dev/test1": ["testA", "testB", "testC", "testXFAIL"],
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "test/qt_test/build-dev/test2": [
       "testD",
       "testE",
@@ -81,7 +79,6 @@ async function runTests(buildDirPath: string) {
       "testXPASS",
       "testMixXFAILWithFAIL",
     ],
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "test/qt_test/build-dev/test3": ["testAbortsEverythig", "testH", "testI"],
   };
 
