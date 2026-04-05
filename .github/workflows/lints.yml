@@ -23,3 +23,5 @@ jobs:
         run: npx eslint src/ --max-warnings 0
       - name: prettier
         run: npx prettier --check src/
+      - name: audit
+        run: npm audit --omit=dev
